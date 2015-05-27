@@ -10,30 +10,10 @@ import javax.swing.JPanel;
 
 public class Level extends JPanel {
     
-    private int[][] grid;
-    
-    private GameObject[][] objectGrid;
-    
-    /**
-     * De grote van de witte rectangle op het scherm.
-     */
-    
-    private boolean generated;
-    
-    private Player p;
-    
-    private JFrame d;
-        
-    
-    /**
-     * de 0 is een stuk waarop je kan lopen. de 1 is een muur.
-     * @return 
-     */
-    public int[][] drawGrid() {
-        grid = new int[][] {
+    private int[][] grid = new int[][] {
         { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
-        { 1, 0, 2, 0, 1, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1 },
-        { 1, 0, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 0, 1 },
+        { 1, 0, 0, 0, 1, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1 },
+        { 1, 2, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 0, 1 },
         { 1, 1, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1 },
         { 1, 0, 0, 0, 1, 0, 1, 0, 1, 1, 1, 0, 1, 1, 0, 1, 0, 1, 1, 1 },
         { 1, 0, 1, 1, 1, 0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 1, 0, 0, 0, 1 },
@@ -47,13 +27,30 @@ public class Level extends JPanel {
         { 1, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1 },
         { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 }
         };
+    
+    private Map map;
+    
+    /**
+     * De grote van de witte rectangle op het scherm.
+     */
         
-        return grid;
-    }
+    private Player p;
+    
+    private JFrame d;
+    
+    private final int blocksPerViewX = 7;
+    private final int blocksPerViewY = 5;
+      
+    
+    /**
+     * de 0 is een stuk waarop je kan lopen. de 1 is een muur.
+     * @return 
+     */    
     
     public Level(JFrame d) {        
         this.d = d;        
-        walk();        
+        generateMap();
+        listenToKeys();        
         d.requestFocus();
     }
 
@@ -64,18 +61,40 @@ public class Level extends JPanel {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);  
         
-        if(!generated) {
-            generateMap();
+        /* DIT GEDEELTE DOET INGEZOOMD SPELEN
+        int startX = p.getX() - (blocksPerViewX/2);
+        int startY = p.getY() - (blocksPerViewY/2);
+        
+        if(startX > (map.getYBounds()-blocksPerViewX)) {
+            startX = map.getYBounds()-blocksPerViewX;
+        }
+        if(startY > (map.getXBounds()-blocksPerViewY)) {
+            startY = map.getXBounds()-blocksPerViewY;
+        }
+        if(startX < 0) {
+            startX = 0;   
+        }
+        if(startY < 0) {
+            startY = 0;
         }
         
-        for(int y = 0; y < objectGrid.length; y++) {
-            for(int j = 0; j < objectGrid[0].length; j++) {
-                if(objectGrid[y][j] != null) {
-                    objectGrid[y][j].paintComponent(g);                    
+        for(int i = 0; i < blocksPerViewY; i++) {
+            for(int j = 0; j < blocksPerViewX; j++) {
+                if(map.getGameObject(i+startY, j+startX) != null) {
+                    map.getGameObject(i+startY, j+startX).paintComponent(g, startX, startY);                    
                 }
             }            
         }
-        p.paintComponent(g);        
+        p.paintComponent(g, startX, startY);        
+        */
+        for(int i = 0; i < map.getXBounds(); i++) {
+            for(int j = 0; j < map.getYBounds(); j++) {
+                if(map.getGameObject(i, j) != null) {
+                    map.getGameObject(i, j).paintComponent(g);                    
+                }
+            }            
+        }
+        p.paintComponent(g);
         
         try {
             Thread.sleep(20);
@@ -85,34 +104,26 @@ public class Level extends JPanel {
         }
     }
     
-     public void walk() {
+     public void listenToKeys() {
         d.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
                 
                 switch(e.getKeyCode()) {
                     case KeyEvent.VK_RIGHT :
-                       if(objectGrid[p.getY()][p.getX()+1].canWalkThrough()) {
-                            p.setX(p.getX() + 1);
-                        }
-                        break;
+                        p.move(Direction.RIGHT);
+                        break;     
                         
                     case KeyEvent.VK_LEFT :
-                         if(objectGrid[p.getY()][p.getX()-1].canWalkThrough()) {
-                            p.setX(p.getX() - 1);
-                        }
-                        break;
-                    
+                         p.move(Direction.LEFT);
+                        break;       
+                        
                     case KeyEvent.VK_UP :
-                        if(objectGrid[p.getY() - 1][p.getX()].canWalkThrough()) {
-                            p.setY(p.getY() - 1);
-                        }
-                        break;
-                    
+                        p.move(Direction.UP);
+                        break;     
+                        
                     case KeyEvent.VK_DOWN :
-                        if(objectGrid[p.getY() + 1][p.getX()].canWalkThrough()) {
-                            p.setY(p.getY() + 1) ;
-                        }
+                        p.move(Direction.DOWN);
                         break;
                 }
                 
@@ -122,7 +133,7 @@ public class Level extends JPanel {
     }
     
     public void generateMap() {
-        objectGrid = new GameObject[grid.length][grid[0].length];
+        GameObject[][] objectGrid = new GameObject[grid.length][grid[0].length];
         
         for(int i = 0; i < grid.length; i++ ) {            
             for(int j = 0; j < grid[0].length; ++j ) {
@@ -140,14 +151,12 @@ public class Level extends JPanel {
                         Path pathh = new Path(j, i);
                         objectGrid[i][j] = pathh; 
                         
-                        Player ps = new Player(j, i);
-                        p = ps;
+                        p = new Player(j, i);
                         break;
-                }
-                
+                }                
             }
-        }
-       
-        generated = true;
+        }       
+       map = new Map(objectGrid);    
+       p.setMap(map);
     }
 }

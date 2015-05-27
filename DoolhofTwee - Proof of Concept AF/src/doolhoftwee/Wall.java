@@ -14,11 +14,17 @@ public class Wall extends GameObject {
     }
     
     @Override
+    public void paintComponent(Graphics g, int beginX, int beginY) {        
+        g.setColor(Color.BLACK);
+        g.fillRect((getX()-beginX) * PIXEL, (getY()-beginY) * PIXEL, PIXEL, PIXEL);
+    }
+
+    @Override
     public void paintComponent(Graphics g) {        
         g.setColor(Color.BLACK);
         g.fillRect(getX() * PIXEL, getY() * PIXEL, PIXEL, PIXEL);
     }
-
+    
     @Override
     public boolean canWalkThrough() {
         return false;

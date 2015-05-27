@@ -28,6 +28,8 @@ public abstract class GameObject extends JComponent {
     
     static final int PIXEL = 40;
     
+    public abstract void paintComponent(Graphics g, int beginX, int beginY);
+    
     public abstract void paintComponent(Graphics g);
     
     public abstract boolean canWalkThrough();
