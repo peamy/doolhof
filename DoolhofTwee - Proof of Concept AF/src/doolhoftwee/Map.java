@@ -31,4 +31,8 @@ public class Map {
         return map[0].length;
     }
     
+    public void destroy() {
+        map = null;
+    }
+    
 }

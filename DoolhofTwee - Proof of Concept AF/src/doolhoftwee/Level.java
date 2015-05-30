@@ -4,54 +4,51 @@ package doolhoftwee;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.event.KeyAdapter;
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 
 public class Level extends JPanel {
     
-    private int[][] grid = new int[][] {
-        { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
-        { 1, 0, 0, 0, 1, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1 },
-        { 1, 2, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 0, 1 },
-        { 1, 1, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1 },
-        { 1, 0, 0, 0, 1, 0, 1, 0, 1, 1, 1, 0, 1, 1, 0, 1, 0, 1, 1, 1 },
-        { 1, 0, 1, 1, 1, 0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 1, 0, 0, 0, 1 },
-        { 1, 0, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 1, 0, 1, 1, 1 },
-        { 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1 },
-        { 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 },
-        { 1, 0, 1, 0, 1, 0, 1, 1, 1, 1, 1, 1, 0, 1, 0, 0, 0, 0, 0, 1 },
-        { 1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1 },
-        { 1, 0, 1, 0, 1, 1, 1, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1 },
-        { 1, 0, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 1, 0, 0, 0, 0, 0, 1 },
-        { 1, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1 },
-        { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 }
-        };
-    
     private Map map;
     
-    /**
-     * De grote van de witte rectangle op het scherm.
-     */
-        
-    private Player p;
+    private Player player;
     
-    private JFrame d;
+    private Frame frame;
+    
+    private KeyAdapter adapter = new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                
+                switch(e.getKeyCode()) {
+                    case KeyEvent.VK_RIGHT :
+                        player.move(Direction.RIGHT);
+                        break;     
+                        
+                    case KeyEvent.VK_LEFT :
+                         player.move(Direction.LEFT);
+                        break;       
+                        
+                    case KeyEvent.VK_UP :
+                        player.move(Direction.UP);
+                        break;     
+                        
+                    case KeyEvent.VK_DOWN :
+                        player.move(Direction.DOWN);
+                        break;
+                }
+                
+                frame.repaint();
+            }
+        };
     
     private final int blocksPerViewX = 7;
-    private final int blocksPerViewY = 5;
-      
+    private final int blocksPerViewY = 5;      
     
-    /**
-     * de 0 is een stuk waarop je kan lopen. de 1 is een muur.
-     * @return 
-     */    
-    
-    public Level(JFrame d) {        
-        this.d = d;        
-        generateMap();
+    public Level(Frame frame, String fileName) {        
+        this.frame = frame;        
+        generateMap(fileName);
         listenToKeys();        
-        d.requestFocus();
+        frame.requestFocus();
     }
 
     @Override
@@ -61,9 +58,9 @@ public class Level extends JPanel {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);  
         
-        /* DIT GEDEELTE DOET INGEZOOMD SPELEN
-        int startX = p.getX() - (blocksPerViewX/2);
-        int startY = p.getY() - (blocksPerViewY/2);
+        /*
+        int startX = player.getX() - (blocksPerViewX/2);
+        int startY = player.getY() - (blocksPerViewY/2);
         
         if(startX > (map.getYBounds()-blocksPerViewX)) {
             startX = map.getYBounds()-blocksPerViewX;
@@ -85,8 +82,9 @@ public class Level extends JPanel {
                 }
             }            
         }
-        p.paintComponent(g, startX, startY);        
+        player.paintComponent(g, startX, startY);  
         */
+        
         for(int i = 0; i < map.getXBounds(); i++) {
             for(int j = 0; j < map.getYBounds(); j++) {
                 if(map.getGameObject(i, j) != null) {
@@ -94,7 +92,7 @@ public class Level extends JPanel {
                 }
             }            
         }
-        p.paintComponent(g);
+        player.paintComponent(g);
         
         try {
             Thread.sleep(20);
@@ -105,58 +103,47 @@ public class Level extends JPanel {
     }
     
      public void listenToKeys() {
-        d.addKeyListener(new KeyAdapter() {
-            @Override
-            public void keyPressed(KeyEvent e) {
-                
-                switch(e.getKeyCode()) {
-                    case KeyEvent.VK_RIGHT :
-                        p.move(Direction.RIGHT);
-                        break;     
-                        
-                    case KeyEvent.VK_LEFT :
-                         p.move(Direction.LEFT);
-                        break;       
-                        
-                    case KeyEvent.VK_UP :
-                        p.move(Direction.UP);
-                        break;     
-                        
-                    case KeyEvent.VK_DOWN :
-                        p.move(Direction.DOWN);
-                        break;
-                }
-                
-                d.repaint();
-            }
-        });
+        frame.addKeyListener(adapter);
     }
     
-    public void generateMap() {
+    public void generateMap(String fileName) {
+        String[][] grid = Datareader.getData(fileName);
+        
         GameObject[][] objectGrid = new GameObject[grid.length][grid[0].length];
         
         for(int i = 0; i < grid.length; i++ ) {            
             for(int j = 0; j < grid[0].length; ++j ) {
                 
                 switch (grid[i][j]) {
-                    case 0 :    
+                    case "." :    
                         Path path = new Path(j, i);
                         objectGrid[i][j] = path;    
                         break;
-                    case 1 :
+                    case "x" :
                         Wall ws = new Wall(j, i);
                         objectGrid[i][j] = ws;
                         break;
-                    case 2 :
+                    case "f" :
+                        Finish f = new Finish(j, i);
+                        objectGrid[i][j] = f;
+                        break;
+                    case "p" :
                         Path pathh = new Path(j, i);
                         objectGrid[i][j] = pathh; 
                         
-                        p = new Player(j, i);
+                        player = new Player(j, i);
+                        player.setFrame(frame);
                         break;
                 }                
             }
         }       
        map = new Map(objectGrid);    
-       p.setMap(map);
+       player.setMap(map);
+    }
+    
+    public void destroyComponents() {
+        map.destroy();
+        player = null;
+        frame.removeKeyListener(adapter);        
     }
 }

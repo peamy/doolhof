@@ -16,13 +16,13 @@ public class Wall extends GameObject {
     @Override
     public void paintComponent(Graphics g, int beginX, int beginY) {        
         g.setColor(Color.BLACK);
-        g.fillRect((getX()-beginX) * PIXEL, (getY()-beginY) * PIXEL, PIXEL, PIXEL);
+        g.fillRect((getX()-beginX) * PIXEL_VERTICAL, (getY()-beginY) * PIXEL_HORIZONTAL, PIXEL_VERTICAL, PIXEL_HORIZONTAL);
     }
 
     @Override
     public void paintComponent(Graphics g) {        
         g.setColor(Color.BLACK);
-        g.fillRect(getX() * PIXEL, getY() * PIXEL, PIXEL, PIXEL);
+        g.fillRect(getX() * PIXEL_VERTICAL, getY() * PIXEL_HORIZONTAL, PIXEL_VERTICAL, PIXEL_HORIZONTAL);
     }
     
     @Override

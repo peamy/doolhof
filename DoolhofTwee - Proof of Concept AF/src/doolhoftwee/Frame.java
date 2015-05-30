@@ -19,6 +19,9 @@ import javax.swing.JPanel;
  */
 public class Frame extends JFrame {
     JPanel panel;
+    Level level = null;
+    LevelHandler handler = null;
+    
     public Frame() {
         setSize(825, 650);
         setTitle("Doolhof");
@@ -28,6 +31,8 @@ public class Frame extends JFrame {
     }
    
     public void init() {
+        handler = new LevelHandler();
+        
         panel = new JPanel();
         panel.setLayout(new BorderLayout());
         
@@ -54,24 +59,55 @@ public class Frame extends JFrame {
     public void loadGame() {
         remove(panel);
         
+        if(level != null) {
+            level.destroyComponents();
+            level = null;
+        }
+        
         panel = new JPanel();
         panel.setLayout(new BorderLayout());
         
-        Level l = new Level(this);
-        
-        JPanel knopPaneel = new JPanel();
-        Button resetbutton = new Button();
-        resetbutton.setLabel("RESET");
-        resetbutton.setBackground(Color.cyan);
-        resetbutton.addActionListener(new clickListener());
-        knopPaneel.add(resetbutton);
-        
-        panel.add(l, BorderLayout.CENTER);
-        panel.add(knopPaneel, BorderLayout.NORTH);
-        
-        add(panel);
+        if(handler.hasNextLevel()) {
+            level = new Level(this, handler.getCurrentLevel());
+
+            JPanel knopPaneel = new JPanel();
+            Button resetbutton = new Button();
+            resetbutton.setLabel("RESET");
+            resetbutton.setBackground(Color.cyan);
+            resetbutton.addActionListener(new clickListener());
+            knopPaneel.add(resetbutton);
+
+            panel.add(level, BorderLayout.CENTER);
+            panel.add(knopPaneel, BorderLayout.NORTH);
+
+            add(panel);
+        }
+        else {
+            endGame();
+        }
         setVisible(true);
         
     }
     
+    public void endGame() {
+        remove(panel);
+        if(level != null) {
+            level.destroyComponents();
+            level = null;
+        }
+        requestFocus();
+        init();
+        setVisible(true);
+    }
+    
+    public void finishLevel() {
+        remove(panel);
+        level.destroyComponents();
+        level = null;
+        if(handler.hasNextLevel()) {            
+            handler.nextLevel();
+        }
+        loadGame();
+    }
+        
 }
