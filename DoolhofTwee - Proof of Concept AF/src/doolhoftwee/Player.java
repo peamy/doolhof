@@ -13,6 +13,8 @@ public class Player extends GameObject {
     
     private int bullet = 0;
     
+    private int stepsTaken;
+    
     public Player(int x, int y) {
         setX(x);
         setY(y);
@@ -29,21 +31,25 @@ public class Player extends GameObject {
         switch(d) {
             case UP : 
                 if(map.getGameObject(getY() - 1, getX()).canWalkThrough()) {
+                    stepsTaken++;
                     setY(getY() - 1);
                 }
                 break;                
             case DOWN :
                 if(map.getGameObject(getY() + 1, getX()).canWalkThrough()) {
+                    stepsTaken++;
                     setY(getY() + 1);
                 }
                 break;
             case LEFT :
                 if(map.getGameObject(getY(), getX()-1).canWalkThrough()) {
+                    stepsTaken++;
                     setX(getX() - 1);
                 }
                 break;                
             case RIGHT :
                 if(map.getGameObject(getY(), getX()+1).canWalkThrough()) {
+                    stepsTaken++;
                     setX(getX() + 1);
                 }
                 break;
@@ -57,7 +63,13 @@ public class Player extends GameObject {
                     
             Bazooka b = (Bazooka) map.getGameObject(getY(), getX());
             map.setPath(b.toPath(), getX(), getY());
-        }            
+        }
+        else if(map.getGameObject(getY(), getX()) instanceof Cheater) {
+            stepsTaken -= 10;
+                    
+            Cheater c = (Cheater) map.getGameObject(getY(), getX());
+            map.setPath(c.toPath(), getX(), getY());
+        }    
     }
     
     public void shoot() {
@@ -103,5 +115,9 @@ public class Player extends GameObject {
     
     public Direction getFaced() {
         return lastFaced;
+    }
+    
+    public int getStepsTaken() {
+        return stepsTaken;
     }
 }

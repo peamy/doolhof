@@ -5,6 +5,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.awt.event.KeyAdapter;
 import javax.swing.JPanel;
+import java.awt.Font;
 
 
 public class Level extends JPanel {
@@ -13,6 +14,8 @@ public class Level extends JPanel {
     
     private Player player;
     private Bullet bullet;
+    
+    private final int FONTSIZE = 25;
     
     private Frame frame;
     
@@ -112,6 +115,10 @@ public class Level extends JPanel {
             }     
         }
         
+        g.setFont(new Font("TimesRoman", Font.PLAIN, FONTSIZE));
+        g.setColor(Color.WHITE);
+        g.drawString("" + player.getStepsTaken(), 5, 25);
+        
         try {
             Thread.sleep(20);
         }
@@ -148,6 +155,10 @@ public class Level extends JPanel {
                     case "b" :
                         Bazooka b = new Bazooka(j, i);
                         objectGrid[i][j] = b;
+                        break;
+                    case "c" :
+                        Cheater c = new Cheater(j, i);
+                        objectGrid[i][j] = c;
                         break;
                     case "p" :
                         Path pathh = new Path(j, i);
