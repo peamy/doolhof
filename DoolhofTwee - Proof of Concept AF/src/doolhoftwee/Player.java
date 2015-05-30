@@ -9,6 +9,10 @@ public class Player extends GameObject {
     private Map map;
     private Frame frame;
     
+    private Direction lastFaced;
+    
+    private int bullet = 0;
+    
     public Player(int x, int y) {
         setX(x);
         setY(y);
@@ -19,6 +23,9 @@ public class Player extends GameObject {
     }
     
     public void move(Direction d) {
+        
+        lastFaced = d;
+        
         switch(d) {
             case UP : 
                 if(map.getGameObject(getY() - 1, getX()).canWalkThrough()) {
@@ -42,14 +49,20 @@ public class Player extends GameObject {
                 break;
         }
         
-        if(map.getGameObject(getY(), getX()) instanceof Interactable) {
-            Interaction i;
-            i = ((Interactable)map.getGameObject(getY(), getX())).interact();
-            switch(i) {
-                case FINISH :
-                    frame.finishLevel();
-                    break;
-            }            
+        if(map.getGameObject(getY(), getX()) instanceof Finish) {
+            frame.finishLevel();
+        }   
+        else if(map.getGameObject(getY(), getX()) instanceof Bazooka) {
+            setBullet(getBullet() + 1);
+                    
+            Bazooka b = (Bazooka) map.getGameObject(getY(), getX());
+            map.setPath(b.toPath(), getX(), getY());
+        }            
+    }
+    
+    public void shoot() {
+        if(getBullet() > 0) {
+            setBullet(getBullet() - 1);
         }
     }
     
@@ -80,4 +93,15 @@ public class Player extends GameObject {
         this.frame = frame;
     }
     
+    public int getBullet() {
+        return bullet;
+    }
+    
+    public void setBullet(int bullet) {
+        this.bullet = bullet;
+    }
+    
+    public Direction getFaced() {
+        return lastFaced;
+    }
 }

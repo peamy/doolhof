@@ -23,6 +23,14 @@ public class Map {
         return new Wall(x, y);
     }
     
+    public void setPath(Path p, int x, int y) {
+        map[y][x] = p;
+    }
+    
+    public void setBullet(Bullet b, int x, int y) {
+        map[y][x] = b;
+    }
+    
     public int getXBounds() {
         return map.length;
     }
@@ -34,5 +42,4 @@ public class Map {
     public void destroy() {
         map = null;
     }
-    
 }

@@ -29,4 +29,8 @@ public class Wall extends GameObject {
     public boolean canWalkThrough() {
         return false;
     }
+    
+    public Path toPath() {
+        return new Path(getX(), getY());
+    }
 }

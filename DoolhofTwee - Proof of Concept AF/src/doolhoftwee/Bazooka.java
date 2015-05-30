@@ -1,44 +1,39 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package doolhoftwee;
 
+import static doolhoftwee.GameObject.PIXEL_VERTICAL;
 import java.awt.Color;
 import java.awt.Graphics;
 
-/**
- *
- * @author Remco
- */
-public class Finish extends GameObject {
 
-    public Finish(int x, int y) {
+public class Bazooka extends GameObject {
+
+    public Bazooka(int x, int y) {
         setX(x);
         setY(y);
     }
 
+    @Override
     public void paintComponent(Graphics g, int beginX, int beginY) {
-        
-        g.setColor(Color.GREEN);
+        g.setColor(Color.RED);
         
         g.fillRect((getX()-beginX) * PIXEL_VERTICAL, (getY()-beginY) * PIXEL_HORIZONTAL, PIXEL_VERTICAL, PIXEL_HORIZONTAL);
-        
-        repaint();
     }
+
     
+    @Override
     public void paintComponent(Graphics g) {
-        
-        g.setColor(Color.GREEN);
+        g.setColor(Color.RED);
         
         g.fillRect(getX() * PIXEL_VERTICAL, getY() * PIXEL_HORIZONTAL, PIXEL_VERTICAL, PIXEL_HORIZONTAL);
-        repaint();
+    }
+    
+    public Path toPath() {
+        return new Path(getX(), getY());
     }
 
     @Override
     public boolean canWalkThrough() {
         return true;
     }
-    
 }

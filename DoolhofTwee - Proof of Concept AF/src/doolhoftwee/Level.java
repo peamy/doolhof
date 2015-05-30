@@ -12,6 +12,7 @@ public class Level extends JPanel {
     private Map map;
     
     private Player player;
+    private Bullet bullet;
     
     private Frame frame;
     
@@ -34,6 +35,13 @@ public class Level extends JPanel {
                         
                     case KeyEvent.VK_DOWN :
                         player.move(Direction.DOWN);
+                        break;
+                        
+                    case KeyEvent.VK_SPACE :
+                        if(player.getBullet() > 0) {
+                            player.shoot();
+                            bullet = new Bullet(player.getX(), player.getY(), player.getFaced(), map);
+                        }
                         break;
                 }
                 
@@ -94,6 +102,16 @@ public class Level extends JPanel {
         }
         player.paintComponent(g);
         
+        if(bullet != null) {
+                
+            bullet.paintComponent(g);
+            frame.repaint();
+            
+            if(bullet.shoot()) {
+                bullet = null;
+            }     
+        }
+        
         try {
             Thread.sleep(20);
         }
@@ -126,6 +144,10 @@ public class Level extends JPanel {
                     case "f" :
                         Finish f = new Finish(j, i);
                         objectGrid[i][j] = f;
+                        break;
+                    case "b" :
+                        Bazooka b = new Bazooka(j, i);
+                        objectGrid[i][j] = b;
                         break;
                     case "p" :
                         Path pathh = new Path(j, i);
