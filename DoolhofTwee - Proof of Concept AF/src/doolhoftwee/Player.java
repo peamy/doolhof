@@ -118,6 +118,10 @@ public class Player extends GameObject {
         return carriesBazooka;
     }
     
+    public void setCarryingBazooka(boolean bool) {
+        this.carriesBazooka = bool;
+    }
+    
     public Direction getFaced() {
         return lastFaced;
     }
