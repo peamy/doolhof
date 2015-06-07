@@ -12,6 +12,8 @@ public class Level extends JPanel {
     
     private Map map;
     
+    private Helper helper;
+    
     private Player player;
     private Bullet bullet;
     
@@ -103,6 +105,11 @@ public class Level extends JPanel {
                 }
             }            
         }
+        
+        if(helper != null) {
+            helper.drawPath(g);
+        }
+        
         player.paintComponent(g);
         
         if(bullet != null) {
@@ -113,9 +120,8 @@ public class Level extends JPanel {
             if(bullet.shoot()) {
                 bullet = null;
             }     
-        }
-        
-        g.setFont(new Font("TimesRoman", Font.PLAIN, FONTSIZE));
+        }        
+        //g.setFont(new Font("TimesRoman", Font.PLAIN, FONTSIZE));        
         g.setColor(Color.WHITE);
         g.drawString("" + player.getStepsTaken(), 5, 25);
         
@@ -135,6 +141,8 @@ public class Level extends JPanel {
         String[][] grid = Datareader.getData(fileName);
         
         GameObject[][] objectGrid = new GameObject[grid.length][grid[0].length];
+        
+        map = new Map();    
         
         for(int i = 0; i < grid.length; i++ ) {            
             for(int j = 0; j < grid[0].length; ++j ) {
@@ -160,18 +168,23 @@ public class Level extends JPanel {
                         Cheater c = new Cheater(j, i);
                         objectGrid[i][j] = c;
                         break;
+                    case "h" :
+                        Helper h = new Helper(j, i, map);
+                        this.helper = h;
+                        objectGrid[i][j] = h;
+                        break;
                     case "p" :
                         Path pathh = new Path(j, i);
                         objectGrid[i][j] = pathh; 
                         
                         player = new Player(j, i);
+                        player.setMap(map);
                         player.setFrame(frame);
                         break;
                 }                
             }
         }       
-       map = new Map(objectGrid);    
-       player.setMap(map);
+       map.setMap(objectGrid);       
     }
     
     public void destroyComponents() {

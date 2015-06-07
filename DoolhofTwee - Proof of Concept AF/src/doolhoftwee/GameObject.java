@@ -35,5 +35,8 @@ public abstract class GameObject extends JComponent {
     
     public abstract boolean canWalkThrough();
     
+    public Path toPath() {
+        return new Path(getX(), getY());
+    }
     
 }

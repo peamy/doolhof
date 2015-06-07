@@ -10,11 +10,7 @@ package doolhoftwee;
  * @author Remco
  */
 public class Map {
-    GameObject[][] map;
-    
-    public Map(GameObject[][] map) {
-        this.map = map;
-    }
+    GameObject[][] map;    
     
     public GameObject getGameObject(int y, int x) {
         if(y < getXBounds() && x < getYBounds() && x >= 0 && y >= 0) {
@@ -41,5 +37,24 @@ public class Map {
     
     public void destroy() {
         map = null;
+    }
+    
+    public GameObject[][] getMap() {
+        return map;
+    }
+    
+    public Finish getFinish() {
+        for(int i = 0; i < getXBounds(); i++) {
+            for(int j = 0; j < getYBounds(); j++) {
+                if(map[i][j] instanceof Finish) {
+                    return (Finish) map[i][j];
+                }
+            }
+        }
+        return null;
+    }
+    
+    public void setMap(GameObject[][] map) {
+        this.map = map;
     }
 }

@@ -9,7 +9,7 @@ public class Player extends GameObject {
     private Map map;
     private Frame frame;
     
-    private Direction lastFaced;
+    private Direction lastFaced = Direction.RIGHT;
     
     private int bullet = 0;
     
@@ -55,21 +55,25 @@ public class Player extends GameObject {
                 break;
         }
         
-        if(map.getGameObject(getY(), getX()) instanceof Finish) {
+        GameObject currentObject = map.getGameObject(getY(), getX());
+        if(currentObject instanceof Finish) {
             frame.finishLevel();
         }   
-        else if(map.getGameObject(getY(), getX()) instanceof Bazooka) {
+        else if(currentObject instanceof Bazooka) {
             setBullet(getBullet() + 1);
-                    
-            Bazooka b = (Bazooka) map.getGameObject(getY(), getX());
-            map.setPath(b.toPath(), getX(), getY());
+            map.setPath(currentObject.toPath(), getX(), getY());
         }
-        else if(map.getGameObject(getY(), getX()) instanceof Cheater) {
-            stepsTaken -= 10;
-                    
-            Cheater c = (Cheater) map.getGameObject(getY(), getX());
-            map.setPath(c.toPath(), getX(), getY());
-        }    
+        else if(currentObject instanceof Cheater) {
+            stepsTaken -= 10;                    
+            map.setPath(currentObject.toPath(), getX(), getY());
+            if(stepsTaken < 0) {
+                stepsTaken = 0;
+            }
+        }
+        else if(currentObject instanceof Helper) {
+            Helper h = (Helper) currentObject;
+            h.findShortestPath(getX(), getY());
+        }
     }
     
     public void shoot() {
@@ -90,9 +94,9 @@ public class Player extends GameObject {
     
     public void paintComponent(Graphics g) {
         
-        g.setColor(Color.BLACK);
-        
+        g.setColor(Color.BLACK);        
         g.fillOval(getX() * PIXEL_VERTICAL, getY() * PIXEL_HORIZONTAL, PIXEL_VERTICAL, PIXEL_HORIZONTAL);
+        
         repaint();
     }
     

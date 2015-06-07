@@ -18,15 +18,13 @@ public class Path extends GameObject {
     
     @Override
     public void paintComponent(Graphics g, int beginX, int beginY) {
-        g.setColor(Color.GRAY);
-        
+        g.setColor(Color.GRAY);        
         g.fillRect((getX()-beginX) * PIXEL_VERTICAL, (getY()-beginY) * PIXEL_HORIZONTAL, PIXEL_VERTICAL, PIXEL_HORIZONTAL);
     }
     
     @Override
     public void paintComponent(Graphics g) {
-        g.setColor(Color.GRAY);
-        
+        g.setColor(Color.GRAY);        
         g.fillRect(getX() * PIXEL_VERTICAL, getY() * PIXEL_HORIZONTAL, PIXEL_VERTICAL, PIXEL_HORIZONTAL);
     }
 

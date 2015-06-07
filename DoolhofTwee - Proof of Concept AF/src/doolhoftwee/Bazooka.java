@@ -26,11 +26,7 @@ public class Bazooka extends GameObject {
         g.setColor(Color.RED);
         
         g.fillRect(getX() * PIXEL_VERTICAL, getY() * PIXEL_HORIZONTAL, PIXEL_VERTICAL, PIXEL_HORIZONTAL);
-    }
-    
-    public Path toPath() {
-        return new Path(getX(), getY());
-    }
+    }    
 
     @Override
     public boolean canWalkThrough() {

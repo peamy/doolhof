@@ -15,15 +15,13 @@ public class Cheater extends GameObject {
     
     @Override
     public void paintComponent(Graphics g, int beginX, int beginY) {
-        g.setColor(Color.CYAN);
-        
+        g.setColor(Color.CYAN);        
         g.fillRect((getX()-beginX) * PIXEL_VERTICAL, (getY()-beginY) * PIXEL_HORIZONTAL, PIXEL_VERTICAL, PIXEL_HORIZONTAL);
     }
     
     @Override
     public void paintComponent(Graphics g) {
-        g.setColor(Color.CYAN);
-        
+        g.setColor(Color.CYAN);        
         g.fillRect(getX() * PIXEL_VERTICAL, getY() * PIXEL_HORIZONTAL, PIXEL_VERTICAL, PIXEL_HORIZONTAL);
     }
 
@@ -32,7 +30,4 @@ public class Cheater extends GameObject {
         return true;
     }
     
-    public Path toPath() {
-        return new Path(getX(), getY());
-    }
 }
