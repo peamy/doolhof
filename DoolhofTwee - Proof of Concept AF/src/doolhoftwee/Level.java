@@ -43,9 +43,12 @@ public class Level extends JPanel {
                         break;
                         
                     case KeyEvent.VK_SPACE :
-                        if(player.getBullet() > 0) {
+                        if(player.isCarryingBazooka() == true) {
                             player.shoot();
                             bullet = new Bullet(player.getX(), player.getY(), player.getFaced(), map);
+                        }
+                        else {
+                            player.pickUpBazooka();
                         }
                         break;
                 }

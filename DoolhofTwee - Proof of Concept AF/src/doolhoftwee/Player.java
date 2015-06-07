@@ -11,7 +11,7 @@ public class Player extends GameObject {
     
     private Direction lastFaced = Direction.RIGHT;
     
-    private int bullet = 0;
+    private boolean carriesBazooka = false;
     
     private int stepsTaken;
     
@@ -59,10 +59,6 @@ public class Player extends GameObject {
         if(currentObject instanceof Finish) {
             frame.finishLevel();
         }   
-        else if(currentObject instanceof Bazooka) {
-            setBullet(getBullet() + 1);
-            map.setPath(currentObject.toPath(), getX(), getY());
-        }
         else if(currentObject instanceof Cheater) {
             stepsTaken -= 10;                    
             map.setPath(currentObject.toPath(), getX(), getY());
@@ -72,13 +68,22 @@ public class Player extends GameObject {
         }
         else if(currentObject instanceof Helper) {
             Helper h = (Helper) currentObject;
-            h.findShortestPath(getX(), getY());
+            h.findShortestPath();
         }
     }
     
     public void shoot() {
-        if(getBullet() > 0) {
-            setBullet(getBullet() - 1);
+        if(carriesBazooka == true) {
+            carriesBazooka = false;
+        }
+    }
+    
+    public void pickUpBazooka() {
+        if(map.getGameObject(getY(), getX()) instanceof Bazooka) {
+            carriesBazooka = true;
+                    
+            Bazooka b = (Bazooka) map.getGameObject(getY(), getX());
+            map.setPath(b.toPath(), getX(), getY());
         }
     }
     
@@ -109,12 +114,8 @@ public class Player extends GameObject {
         this.frame = frame;
     }
     
-    public int getBullet() {
-        return bullet;
-    }
-    
-    public void setBullet(int bullet) {
-        this.bullet = bullet;
+    public boolean isCarryingBazooka() {
+        return carriesBazooka;
     }
     
     public Direction getFaced() {
