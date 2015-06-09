@@ -149,8 +149,17 @@ public class Level extends JPanel {
         
         for(int i = 0; i < grid.length; i++ ) {            
             for(int j = 0; j < grid[0].length; ++j ) {
-                
-                switch (grid[i][j]) {
+                String value = grid[i][j];
+                int number = 0;
+                //number for the cheater
+                try {
+                   number = Integer.parseInt(value);
+                   value = "c";
+                }
+                catch(NumberFormatException e) {
+                    
+                }
+                switch (value) {
                     case "." :    
                         Path path = new Path(j, i);
                         objectGrid[i][j] = path;    
@@ -168,7 +177,7 @@ public class Level extends JPanel {
                         objectGrid[i][j] = b;
                         break;
                     case "c" :
-                        Cheater c = new Cheater(j, i);
+                        Cheater c = new Cheater(j, i, 2*number);
                         objectGrid[i][j] = c;
                         break;
                     case "h" :

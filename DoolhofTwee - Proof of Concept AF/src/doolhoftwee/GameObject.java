@@ -26,17 +26,13 @@ public abstract class GameObject extends JComponent {
         return y;
     }
     
-    static final int PIXEL_HORIZONTAL = 40;
-    static final int PIXEL_VERTICAL = 40;
-    
-    public abstract void paintComponent(Graphics g, int beginX, int beginY);
-    
-    public abstract void paintComponent(Graphics g);
-    
     public abstract boolean canWalkThrough();
     
     public Path toPath() {
         return new Path(getX(), getY());
     }
     
+    public abstract void paintComponent(Graphics g, int beginX, int beginY);
+    
+    public abstract void paintComponent(Graphics g);
 }

@@ -1,7 +1,6 @@
 
 package doolhoftwee;
 
-import static doolhoftwee.GameObject.PIXEL_VERTICAL;
 import java.awt.Color;
 import java.awt.Graphics;
 
@@ -17,15 +16,17 @@ public class Bazooka extends GameObject {
     public void paintComponent(Graphics g, int beginX, int beginY) {
         g.setColor(Color.RED);
         
-        g.fillRect((getX()-beginX) * PIXEL_VERTICAL, (getY()-beginY) * PIXEL_HORIZONTAL, PIXEL_VERTICAL, PIXEL_HORIZONTAL);
+        g.fillRect((getX()-beginX) * Drawing.PIXEL_VERTICAL, (getY()-beginY) * Drawing.PIXEL_HORIZONTAL, Drawing.PIXEL_VERTICAL, Drawing.PIXEL_HORIZONTAL);
     }
 
     
     @Override
     public void paintComponent(Graphics g) {
-        g.setColor(Color.RED);
+        g.setColor(Color.GRAY);        
+        g.fillRect(getX() * Drawing.PIXEL_VERTICAL, getY() * Drawing.PIXEL_HORIZONTAL, Drawing.PIXEL_VERTICAL, Drawing.PIXEL_HORIZONTAL);
         
-        g.fillRect(getX() * PIXEL_VERTICAL, getY() * PIXEL_HORIZONTAL, PIXEL_VERTICAL, PIXEL_HORIZONTAL);
+        g.setColor(Color.red);        
+        g.fillRect(getX() * Drawing.PIXEL_VERTICAL, (int) ((double)(getY() +((double)3/4)) * Drawing.PIXEL_HORIZONTAL), Drawing.PIXEL_VERTICAL,(int) (Drawing.PIXEL_HORIZONTAL/4));
     }    
 
     @Override

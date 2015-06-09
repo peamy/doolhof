@@ -5,7 +5,6 @@
  */
 package doolhoftwee;
 
-import static doolhoftwee.GameObject.PIXEL_VERTICAL;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.util.LinkedList;
@@ -27,13 +26,13 @@ public class Helper extends GameObject{
     @Override
     public void paintComponent(Graphics g, int beginX, int beginY) {
         g.setColor(Color.BLUE);        
-        g.fillRect((getX()-beginX) * PIXEL_VERTICAL, (getY()-beginY) * PIXEL_HORIZONTAL, PIXEL_VERTICAL, PIXEL_HORIZONTAL);
+        g.fillRect((getX()-beginX) * Drawing.PIXEL_VERTICAL, (getY()-beginY) * Drawing.PIXEL_HORIZONTAL, Drawing.PIXEL_VERTICAL, Drawing.PIXEL_HORIZONTAL);
     }
     
     @Override
     public void paintComponent(Graphics g) {
         g.setColor(Color.BLUE);        
-        g.fillRect(getX() * PIXEL_VERTICAL, getY() * PIXEL_HORIZONTAL, PIXEL_VERTICAL, PIXEL_HORIZONTAL);
+        g.fillRect(getX() * Drawing.PIXEL_VERTICAL, getY() * Drawing.PIXEL_HORIZONTAL, Drawing.PIXEL_VERTICAL, Drawing.PIXEL_HORIZONTAL);
         
         
     }
@@ -42,7 +41,7 @@ public class Helper extends GameObject{
         g.setColor(Color.BLUE);
         if(path != null) {
             for (Cell cell : path) {
-                g.fillOval(cell.col * PIXEL_VERTICAL, cell.row * PIXEL_HORIZONTAL, PIXEL_VERTICAL, PIXEL_HORIZONTAL);
+                g.fillOval(cell.col * Drawing.PIXEL_VERTICAL, cell.row * Drawing.PIXEL_HORIZONTAL, Drawing.PIXEL_VERTICAL, Drawing.PIXEL_HORIZONTAL);
             }
         }
     }

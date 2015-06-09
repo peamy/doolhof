@@ -3,11 +3,14 @@ package doolhoftwee;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import javax.swing.JComponent;
 
 
-public class Player extends GameObject {
+public class Player extends JComponent  {
     private Map map;
     private Frame frame;
+    private int x;
+    private int y;
     
     private Direction lastFaced = Direction.RIGHT;
     
@@ -19,6 +22,24 @@ public class Player extends GameObject {
         setX(x);
         setY(y);
     }
+
+    public int getX() {
+        return x;
+    }
+
+    public void setX(int x) {
+        this.x = x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
+    public void setY(int y) {
+        this.y = y;
+    }
+    
+    
     
     public void setMap(Map map) {
         this.map = map;
@@ -87,12 +108,11 @@ public class Player extends GameObject {
         }
     }
     
-    @Override
     public void paintComponent(Graphics g, int beginX, int beginY) {
         
         g.setColor(Color.BLACK);
         
-        g.fillOval((getX()-beginX) * PIXEL_VERTICAL, (getY()-beginY) * PIXEL_HORIZONTAL, PIXEL_VERTICAL, PIXEL_HORIZONTAL);
+        g.fillOval((getX()-beginX) * Drawing.PIXEL_VERTICAL, (getY()-beginY) * Drawing.PIXEL_HORIZONTAL, Drawing.PIXEL_VERTICAL, Drawing.PIXEL_HORIZONTAL);
         
         repaint();
     }
@@ -100,15 +120,32 @@ public class Player extends GameObject {
     public void paintComponent(Graphics g) {
         
         g.setColor(Color.BLACK);        
-        g.fillOval(getX() * PIXEL_VERTICAL, getY() * PIXEL_HORIZONTAL, PIXEL_VERTICAL, PIXEL_HORIZONTAL);
+        g.fillOval(getX() * Drawing.PIXEL_VERTICAL, getY() * Drawing.PIXEL_HORIZONTAL, Drawing.PIXEL_VERTICAL, Drawing.PIXEL_HORIZONTAL);
+        
+        //draw the bazooka
+        if(carriesBazooka) {
+            switch(lastFaced) {
+                case DOWN :
+                    g.setColor(Color.red);        
+                    g.fillRect(getX() * Drawing.PIXEL_VERTICAL, getY() * Drawing.PIXEL_HORIZONTAL, (int) (Drawing.PIXEL_VERTICAL/4), Drawing.PIXEL_HORIZONTAL);
+                    break;
+                case LEFT :
+                    g.setColor(Color.red);        
+                    g.fillRect(getX() * Drawing.PIXEL_VERTICAL, getY()* Drawing.PIXEL_HORIZONTAL, Drawing.PIXEL_VERTICAL,(int) (Drawing.PIXEL_HORIZONTAL/4));
+                    break;
+                case RIGHT :
+                    g.setColor(Color.red);        
+                    g.fillRect(getX() * Drawing.PIXEL_VERTICAL, (int) ((double)(getY() +((double)3/4)) * Drawing.PIXEL_HORIZONTAL), Drawing.PIXEL_VERTICAL,(int) (Drawing.PIXEL_HORIZONTAL/4));
+                    break;
+                case UP :
+                    g.setColor(Color.red);        
+                    g.fillRect((int) ((double)(getX() +((double)3/4)) * Drawing.PIXEL_VERTICAL), getY() * Drawing.PIXEL_HORIZONTAL, (int) (Drawing.PIXEL_VERTICAL/4), Drawing.PIXEL_HORIZONTAL);
+                    break;
+            }
+        }
         
         repaint();
-    }
-    
-    @Override
-    public boolean canWalkThrough() {
-        return true;
-    }
+    }    
     
     public void setFrame(Frame frame) {
         this.frame = frame;

@@ -1,14 +1,17 @@
 
 package doolhoftwee;
 
-import static doolhoftwee.GameObject.PIXEL_VERTICAL;
 import java.awt.Color;
 import java.awt.Graphics;
+import javax.swing.JComponent;
 
 
-public class Bullet extends GameObject{
+public class Bullet extends JComponent{
     
     private Direction direction;
+    
+    private int x;
+    private int y;
     
     private Map m;
     
@@ -21,17 +24,32 @@ public class Bullet extends GameObject{
         this.m = m;
     }
     
-    @Override
+    public void setX(int x) {
+        this.x = x;
+    }
+    
+    public void setY(int y) {
+        this.y = y;
+    }
+    
+    public int getX() {
+        return x;
+    }
+    
+    public int getY() {
+        return y;
+    }
+    
     public void paintComponent(Graphics g, int beginX, int beginY) {
         g.setColor(Color.YELLOW);
         
-        g.fillRect((getX()-beginX) * PIXEL_VERTICAL, (getY()-beginY) * PIXEL_HORIZONTAL, PIXEL_VERTICAL, PIXEL_HORIZONTAL);
+        g.fillRect((getX()-beginX) * Drawing.PIXEL_VERTICAL, (getY()-beginY) * Drawing.PIXEL_HORIZONTAL, Drawing.PIXEL_VERTICAL, Drawing.PIXEL_HORIZONTAL);
     }
     
     @Override
     public void paintComponent(Graphics g) {        
         g.setColor(Color.YELLOW);
-        g.fillRect(getX() * PIXEL_VERTICAL, getY() * PIXEL_HORIZONTAL, PIXEL_HORIZONTAL / 2, PIXEL_VERTICAL / 2);
+        g.fillRect(getX() * Drawing.PIXEL_VERTICAL, getY() * Drawing.PIXEL_HORIZONTAL, Drawing.PIXEL_HORIZONTAL / 2, Drawing.PIXEL_VERTICAL / 2);
     }
     
     public boolean shoot() {
@@ -79,8 +97,4 @@ public class Bullet extends GameObject{
         return false;
     }
 
-    @Override
-    public boolean canWalkThrough() {
-        return true;
-    }
 }

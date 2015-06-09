@@ -4,7 +4,7 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 public class LevelHandler {
-    Queue<String> maps = new LinkedList<>();
+    private Queue<String> maps = new LinkedList<>();
     
     public LevelHandler() {
         init();
