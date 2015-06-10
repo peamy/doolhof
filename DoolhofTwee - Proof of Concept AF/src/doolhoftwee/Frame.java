@@ -10,7 +10,12 @@ import java.awt.Button;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 /**
@@ -45,7 +50,18 @@ public class Frame extends JFrame {
         
         buttonpanel.add(startbutton);
         
-        panel.add(buttonpanel, BorderLayout.CENTER);
+        try{
+            BufferedImage image = ImageIO.read(new File("src/doolhoftwee/images/Legenda.png"));
+            
+            JLabel picLabel = new JLabel(new ImageIcon(image));
+            panel.add(picLabel, BorderLayout.CENTER);
+            panel.repaint();
+        }
+        catch(Exception e) {
+            System.out.println(e + " fout bij inladen mage in Frame klasse.");
+        }
+        
+        panel.add(buttonpanel, BorderLayout.NORTH);
         
         add(panel); 
     }

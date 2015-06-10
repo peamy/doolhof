@@ -81,7 +81,7 @@ public class Player extends JComponent  {
             frame.finishLevel();
         }   
         else if(currentObject instanceof Cheater) {
-            stepsTaken -= 10;                    
+            stepsTaken -= ((Cheater) currentObject).getValue();                    
             map.setPath(currentObject.toPath(), getX(), getY());
             if(stepsTaken < 0) {
                 stepsTaken = 0;
