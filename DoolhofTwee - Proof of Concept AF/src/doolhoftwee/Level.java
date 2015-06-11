@@ -12,8 +12,6 @@ public class Level extends JPanel {
     
     private Map map;
     
-    private Helper helper;
-    
     private Player player;
     private Bullet bullet;
     
@@ -109,10 +107,6 @@ public class Level extends JPanel {
             }            
         }
         
-        if(helper != null) {
-            helper.drawPath(g);
-        }
-        
         player.paintComponent(g);
         
         if(bullet != null) {
@@ -181,8 +175,7 @@ public class Level extends JPanel {
                         objectGrid[i][j] = c;
                         break;
                     case "h" :
-                        Helper h = new Helper(j, i, map);
-                        this.helper = h;
+                        Helper h = new Helper(j, i);
                         objectGrid[i][j] = h;
                         break;
                     case "p" :

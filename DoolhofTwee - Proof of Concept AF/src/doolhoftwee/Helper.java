@@ -15,13 +15,10 @@ import java.util.List;
  * @author Remco
  */
 public class Helper extends GameObject{
-    private List<Cell> path;
-    private Map map;
     
-    public Helper(int x, int y, Map m) {
+    public Helper(int x, int y) {
         setX(x);
         setY(y);
-        this.map = m;
     }
     @Override
     public void paintComponent(Graphics g, int beginX, int beginY) {
@@ -35,16 +32,7 @@ public class Helper extends GameObject{
         g.fillRect(getX() * Drawing.PIXEL_VERTICAL, getY() * Drawing.PIXEL_HORIZONTAL, Drawing.PIXEL_VERTICAL, Drawing.PIXEL_HORIZONTAL);
         
         
-    }
-    
-    public void drawPath(Graphics g) {
-        g.setColor(Color.BLUE);
-        if(path != null) {
-            for (Cell cell : path) {
-                g.fillOval(cell.col * Drawing.PIXEL_VERTICAL, cell.row * Drawing.PIXEL_HORIZONTAL, Drawing.PIXEL_VERTICAL, Drawing.PIXEL_HORIZONTAL);
-            }
-        }
-    }
+    }    
 
     @Override
     public boolean canWalkThrough() {
@@ -54,7 +42,7 @@ public class Helper extends GameObject{
     /**
      * @SOURCE  http://www.dsalgo.com/2013/02/find-shortest-path-in-maze.html
      */
-    public boolean findShortestPath() { 
+    public boolean findShortestPath(Map map) { 
         
         GameObject[][] objects  = map.getMap();
         Finish finish           = map.getFinish();
@@ -99,7 +87,7 @@ public class Helper extends GameObject{
             return false;
         }
 
-        LinkedList < Cell > path = new LinkedList < Cell >();
+        LinkedList <Cell> path = new LinkedList <Cell>();
         Cell cell = end;
         while (!cell.equals(start)) {    
             path.push(cell);
@@ -122,7 +110,12 @@ public class Helper extends GameObject{
                 }
             }
         }
-        this.path = path;
+        //this.path = path;
+        
+        map.resetShortestPath();
+        for (Cell c : path) {            
+            map.setShortestPath(c.row, c.col);
+        }
         return true;
      }
     

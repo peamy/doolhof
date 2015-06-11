@@ -10,7 +10,8 @@ import javax.swing.JComponent;
  * @author Jan
  */
 public class Path extends GameObject {
-
+    private boolean isShortestPath = false;
+    
     public Path(int x, int y) {
         setX(x);
         setY(y);
@@ -24,7 +25,13 @@ public class Path extends GameObject {
     
     @Override
     public void paintComponent(Graphics g) {
-        g.setColor(Color.GRAY);        
+        if(isShortestPath) {
+            g.setColor(Color.LIGHT_GRAY);
+        }
+        else {
+            g.setColor(Color.GRAY);
+        }
+                
         g.fillRect(getX() * Drawing.PIXEL_VERTICAL, getY() * Drawing.PIXEL_HORIZONTAL, Drawing.PIXEL_VERTICAL, Drawing.PIXEL_HORIZONTAL);
     }
 
@@ -32,4 +39,9 @@ public class Path extends GameObject {
     public boolean canWalkThrough() {
         return true;
     }
+    
+    public void setShortestPath(boolean isShortestPath) {
+        this.isShortestPath = isShortestPath;
+    }
+    
 }

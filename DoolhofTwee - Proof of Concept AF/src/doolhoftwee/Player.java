@@ -89,7 +89,8 @@ public class Player extends JComponent  {
         }
         else if(currentObject instanceof Helper) {
             Helper h = (Helper) currentObject;
-            h.findShortestPath();
+            h.findShortestPath(map);
+            map.setPath(currentObject.toPath(), getX(), getY());
         }
     }
     
@@ -103,7 +104,7 @@ public class Player extends JComponent  {
         if(map.getGameObject(getY(), getX()) instanceof Bazooka) {
             carriesBazooka = true;
                     
-            Bazooka b = (Bazooka) map.getGameObject(getY(), getX());
+            GameObject b = map.getGameObject(getY(), getX());
             map.setPath(b.toPath(), getX(), getY());
         }
     }

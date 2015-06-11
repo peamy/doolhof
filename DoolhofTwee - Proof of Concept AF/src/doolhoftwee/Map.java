@@ -53,4 +53,21 @@ public class Map {
     public void setMap(GameObject[][] map) {
         this.map = map;
     }
+    
+    public void resetShortestPath() {
+         for(int i = 0; i < getXBounds(); i++) {
+            for(int j = 0; j < getYBounds(); j++) {
+                if(map[i][j] instanceof Path) {
+                    ((Path) map[i][j]).setShortestPath(false);
+                }
+            }
+        }
+    }
+    
+    public void setShortestPath(int x, int y) {
+        GameObject object = map[x][y];
+        if(object instanceof Path) {
+            ((Path)object).setShortestPath(true);
+        }
+    }
 }
