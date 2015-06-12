@@ -3,7 +3,9 @@ package doolhoftwee;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import javax.swing.JComponent;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import javax.imageio.ImageIO;
 
 /**
  *
@@ -11,9 +13,18 @@ import javax.swing.JComponent;
  */
 public class Path extends GameObject {
 
+    private BufferedImage image;
+    
     public Path(int x, int y) {
         setX(x);
         setY(y);
+        
+        try{
+            image = ImageIO.read(new File("src/doolhoftwee/images/path.png"));
+        }
+        catch(Exception e) {
+            System.out.println(e + " fout bij inladen mage in Frame klasse.");
+        }
     }
     
     @Override
@@ -24,8 +35,7 @@ public class Path extends GameObject {
     
     @Override
     public void paintComponent(Graphics g) {
-        g.setColor(Color.GRAY);        
-        g.fillRect(getX() * Drawing.PIXEL_VERTICAL, getY() * Drawing.PIXEL_HORIZONTAL, Drawing.PIXEL_VERTICAL, Drawing.PIXEL_HORIZONTAL);
+        g.drawImage(image, getX() * Drawing.PIXEL_HORIZONTAL, getY() * Drawing.PIXEL_VERTICAL, null);
     }
 
     @Override

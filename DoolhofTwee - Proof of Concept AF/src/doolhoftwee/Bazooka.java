@@ -3,13 +3,27 @@ package doolhoftwee;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import javax.imageio.ImageIO;
 
 
 public class Bazooka extends GameObject {
 
+    private BufferedImage pathImage;
+    private BufferedImage bazookaImage;
+    
     public Bazooka(int x, int y) {
         setX(x);
         setY(y);
+        
+        try{
+            pathImage = ImageIO.read(new File("src/doolhoftwee/images/path.png"));
+            bazookaImage = ImageIO.read(new File("src/doolhoftwee/images/bazooka.png"));
+        }
+        catch(Exception e) {
+            System.out.println(e + " fout bij inladen mage in Frame klasse.");
+        } 
     }
 
     @Override
@@ -22,11 +36,8 @@ public class Bazooka extends GameObject {
     
     @Override
     public void paintComponent(Graphics g) {
-        g.setColor(Color.GRAY);        
-        g.fillRect(getX() * Drawing.PIXEL_VERTICAL, getY() * Drawing.PIXEL_HORIZONTAL, Drawing.PIXEL_VERTICAL, Drawing.PIXEL_HORIZONTAL);
-        
-        g.setColor(Color.red);        
-        g.fillRect(getX() * Drawing.PIXEL_VERTICAL, (int) ((double)(getY() +((double)3/4)) * Drawing.PIXEL_HORIZONTAL), Drawing.PIXEL_VERTICAL,(int) (Drawing.PIXEL_HORIZONTAL/4));
+        g.drawImage(pathImage, getX() * Drawing.PIXEL_HORIZONTAL, getY() * Drawing.PIXEL_VERTICAL, null);
+        g.drawImage(bazookaImage, getX() * Drawing.PIXEL_HORIZONTAL, getY() * Drawing.PIXEL_VERTICAL, null);
     }    
 
     @Override

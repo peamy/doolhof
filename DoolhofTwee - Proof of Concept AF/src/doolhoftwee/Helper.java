@@ -7,8 +7,11 @@ package doolhoftwee;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.util.LinkedList;
 import java.util.List;
+import javax.imageio.ImageIO;
 
 /**
  *
@@ -18,10 +21,23 @@ public class Helper extends GameObject{
     private List<Cell> path;
     private Map map;
     
+    private BufferedImage pathImage;
+    private BufferedImage helperImage;
+    private BufferedImage helperPath;
+    
     public Helper(int x, int y, Map m) {
         setX(x);
         setY(y);
         this.map = m;
+        
+        try{
+            pathImage = ImageIO.read(new File("src/doolhoftwee/images/path.png"));
+            helperImage = ImageIO.read(new File("src/doolhoftwee/images/sign.png"));
+            helperPath = ImageIO.read(new File("src/doolhoftwee/images/helperPath.png"));
+        }
+        catch(Exception e) {
+            System.out.println(e + " fout bij inladen mage in Frame klasse.");
+        } 
     }
     @Override
     public void paintComponent(Graphics g, int beginX, int beginY) {
@@ -31,9 +47,8 @@ public class Helper extends GameObject{
     
     @Override
     public void paintComponent(Graphics g) {
-        g.setColor(Color.BLUE);        
-        g.fillRect(getX() * Drawing.PIXEL_VERTICAL, getY() * Drawing.PIXEL_HORIZONTAL, Drawing.PIXEL_VERTICAL, Drawing.PIXEL_HORIZONTAL);
-        
+        g.drawImage(pathImage, getX() * Drawing.PIXEL_HORIZONTAL, getY() * Drawing.PIXEL_VERTICAL, null);
+        g.drawImage(helperImage, getX() * Drawing.PIXEL_HORIZONTAL, getY() * Drawing.PIXEL_VERTICAL, null);
         
     }
     
@@ -41,7 +56,7 @@ public class Helper extends GameObject{
         g.setColor(Color.BLUE);
         if(path != null) {
             for (Cell cell : path) {
-                g.fillOval(cell.col * Drawing.PIXEL_VERTICAL, cell.row * Drawing.PIXEL_HORIZONTAL, Drawing.PIXEL_VERTICAL, Drawing.PIXEL_HORIZONTAL);
+                g.drawImage(helperPath, cell.col * Drawing.PIXEL_VERTICAL, cell.row * Drawing.PIXEL_HORIZONTAL, null);
             }
         }
     }
