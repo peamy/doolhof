@@ -3,6 +3,9 @@ package doolhoftwee;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import javax.imageio.ImageIO;
 import javax.swing.JComponent;
 
 
@@ -11,6 +14,13 @@ public class Player extends JComponent  {
     private Frame frame;
     private int x;
     private int y;
+    
+    private BufferedImage pathImage;
+    private BufferedImage playerImage;
+    private BufferedImage playerBazookaUp;
+    private BufferedImage playerBazookaDown;
+    private BufferedImage playerBazookaLeft;
+    private BufferedImage playerBazookaRight;
     
     private Direction lastFaced = Direction.RIGHT;
     
@@ -21,6 +31,18 @@ public class Player extends JComponent  {
     public Player(int x, int y) {
         setX(x);
         setY(y);
+        
+        try{
+            pathImage = ImageIO.read(new File("src/doolhoftwee/images/path.png"));
+            playerImage = ImageIO.read(new File("src/doolhoftwee/images/player.png"));
+            playerBazookaDown = ImageIO.read(new File("src/doolhoftwee/images/playerBazookaDown.png"));
+            playerBazookaUp = ImageIO.read(new File("src/doolhoftwee/images/playerBazookaUp.png"));
+            playerBazookaLeft = ImageIO.read(new File("src/doolhoftwee/images/playerBazookaLeft.png"));
+            playerBazookaRight = ImageIO.read(new File("src/doolhoftwee/images/playerBazookaRight.png"));
+        }
+        catch(Exception e) {
+            System.out.println(e + " fout bij inladen mage in Frame klasse.");
+        }
     }
 
     public int getX() {
@@ -119,28 +141,27 @@ public class Player extends JComponent  {
     }
     
     public void paintComponent(Graphics g) {
-        
-        g.setColor(Color.BLACK);        
-        g.fillOval(getX() * Drawing.PIXEL_VERTICAL, getY() * Drawing.PIXEL_HORIZONTAL, Drawing.PIXEL_VERTICAL, Drawing.PIXEL_HORIZONTAL);
+        g.drawImage(pathImage, getX() * Drawing.PIXEL_HORIZONTAL, getY() * Drawing.PIXEL_VERTICAL, null);
+        g.drawImage(playerImage, getX() * Drawing.PIXEL_HORIZONTAL, getY() * Drawing.PIXEL_VERTICAL, null);
         
         //draw the bazooka
         if(carriesBazooka) {
             switch(lastFaced) {
                 case DOWN :
-                    g.setColor(Color.red);        
-                    g.fillRect(getX() * Drawing.PIXEL_VERTICAL, getY() * Drawing.PIXEL_HORIZONTAL, (int) (Drawing.PIXEL_VERTICAL/4), Drawing.PIXEL_HORIZONTAL);
+                      g.drawImage(pathImage, getX() * Drawing.PIXEL_HORIZONTAL, getY() * Drawing.PIXEL_VERTICAL, null);
+                      g.drawImage(playerBazookaDown, getX() * Drawing.PIXEL_HORIZONTAL, getY() * Drawing.PIXEL_VERTICAL, null);
                     break;
                 case LEFT :
-                    g.setColor(Color.red);        
-                    g.fillRect(getX() * Drawing.PIXEL_VERTICAL, getY()* Drawing.PIXEL_HORIZONTAL, Drawing.PIXEL_VERTICAL,(int) (Drawing.PIXEL_HORIZONTAL/4));
+                    g.drawImage(pathImage, getX() * Drawing.PIXEL_HORIZONTAL, getY() * Drawing.PIXEL_VERTICAL, null);
+                    g.drawImage(playerBazookaLeft, getX() * Drawing.PIXEL_HORIZONTAL, getY() * Drawing.PIXEL_VERTICAL, null);
                     break;
                 case RIGHT :
-                    g.setColor(Color.red);        
-                    g.fillRect(getX() * Drawing.PIXEL_VERTICAL, (int) ((double)(getY() +((double)3/4)) * Drawing.PIXEL_HORIZONTAL), Drawing.PIXEL_VERTICAL,(int) (Drawing.PIXEL_HORIZONTAL/4));
+                    g.drawImage(pathImage, getX() * Drawing.PIXEL_HORIZONTAL, getY() * Drawing.PIXEL_VERTICAL, null);
+                    g.drawImage(playerBazookaRight, getX() * Drawing.PIXEL_HORIZONTAL, getY() * Drawing.PIXEL_VERTICAL, null);
                     break;
                 case UP :
-                    g.setColor(Color.red);        
-                    g.fillRect((int) ((double)(getX() +((double)3/4)) * Drawing.PIXEL_VERTICAL), getY() * Drawing.PIXEL_HORIZONTAL, (int) (Drawing.PIXEL_VERTICAL/4), Drawing.PIXEL_HORIZONTAL);
+                   g.drawImage(pathImage, getX() * Drawing.PIXEL_HORIZONTAL, getY() * Drawing.PIXEL_VERTICAL, null);
+                   g.drawImage(playerBazookaUp, getX() * Drawing.PIXEL_HORIZONTAL, getY() * Drawing.PIXEL_VERTICAL, null);
                     break;
             }
         }

@@ -3,12 +3,17 @@ package doolhoftwee;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import javax.imageio.ImageIO;
 import javax.swing.JComponent;
 
 
 public class Bullet extends JComponent{
     
     private Direction direction;
+    
+    private BufferedImage image;
     
     private int x;
     private int y;
@@ -18,6 +23,13 @@ public class Bullet extends JComponent{
     public Bullet(int x, int y, Direction d, Map m) {
         setX(x);
         setY(y);
+        
+        try{
+            image = ImageIO.read(new File("src/doolhoftwee/images/bullet.png"));
+        }
+        catch(Exception e) {
+            System.out.println(e + " fout bij inladen mage in Frame klasse.");
+        } 
         
         this.direction = d;
         
@@ -48,8 +60,7 @@ public class Bullet extends JComponent{
     
     @Override
     public void paintComponent(Graphics g) {        
-        g.setColor(Color.YELLOW);
-        g.fillRect(getX() * Drawing.PIXEL_VERTICAL, getY() * Drawing.PIXEL_HORIZONTAL, Drawing.PIXEL_HORIZONTAL / 2, Drawing.PIXEL_VERTICAL / 2);
+          g.drawImage(image, getX() * Drawing.PIXEL_HORIZONTAL, getY() * Drawing.PIXEL_VERTICAL, null);
     }
     
     public boolean shoot() {

@@ -3,18 +3,33 @@ package doolhoftwee;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import javax.swing.JComponent;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.imageio.ImageIO;
 
 /**
  *
  * @author Jan
  */
 public class Path extends GameObject {
+
     private boolean isShortestPath = false;
+    
+    private BufferedImage image;
     
     public Path(int x, int y) {
         setX(x);
         setY(y);
+        
+        try{
+            image = ImageIO.read(new File("src/doolhoftwee/images/path.png"));
+        }
+        catch(Exception e) {
+            System.out.println(e + " fout bij inladen mage in Frame klasse.");
+        }
     }
     
     @Override
@@ -25,14 +40,8 @@ public class Path extends GameObject {
     
     @Override
     public void paintComponent(Graphics g) {
-        if(isShortestPath) {
-            g.setColor(Color.LIGHT_GRAY);
-        }
-        else {
-            g.setColor(Color.GRAY);
-        }
-                
-        g.fillRect(getX() * Drawing.PIXEL_VERTICAL, getY() * Drawing.PIXEL_HORIZONTAL, Drawing.PIXEL_VERTICAL, Drawing.PIXEL_HORIZONTAL);
+        g.drawImage(image, getX() * Drawing.PIXEL_HORIZONTAL, getY() * Drawing.PIXEL_VERTICAL, null);
+
     }
 
     @Override
@@ -42,6 +51,20 @@ public class Path extends GameObject {
     
     public void setShortestPath(boolean isShortestPath) {
         this.isShortestPath = isShortestPath;
+        if(isShortestPath) {
+            try {
+                image = ImageIO.read(new File("src/doolhoftwee/images/helperPath.png"));
+            } catch (IOException ex) {
+                Logger.getLogger(Path.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        else {
+            try {
+                image = ImageIO.read(new File("src/doolhoftwee/images/path.png"));
+            } catch (IOException ex) {
+                Logger.getLogger(Path.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
     }
     
 }
