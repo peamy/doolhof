@@ -2,21 +2,18 @@ package doolhoftwee;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.image.BufferedImage;
 import java.io.File;
 import javax.imageio.ImageIO;
 
 
 public class Wall extends GameObject {
     
-    private BufferedImage image;
-    
     public Wall(int x, int y) {
         setX(x);
         setY(y);
         
         try{
-            image = ImageIO.read(new File("src/doolhoftwee/images/wall.png"));
+            setImage(ImageIO.read(new File("src/doolhoftwee/images/wall.png")));
         }
         catch(Exception e) {
             System.out.println(e + " fout bij inladen mage in Frame klasse.");
@@ -30,16 +27,8 @@ public class Wall extends GameObject {
     }
 
     @Override
-    public void paintComponent(Graphics g) {        
-        g.drawImage(image, getX() * Drawing.PIXEL_HORIZONTAL, getY() * Drawing.PIXEL_VERTICAL, null);
-    }
-    
-    @Override
     public boolean canWalkThrough() {
         return false;
     }
     
-    public Path toPath() {
-        return new Path(getX(), getY());
-    }
 }

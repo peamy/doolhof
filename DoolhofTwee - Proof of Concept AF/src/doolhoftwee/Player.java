@@ -59,12 +59,15 @@ public class Player extends JComponent  {
         this.y = y;
     }
     
-    
-    
     public void setMap(Map map) {
         this.map = map;
     }
     
+    /**
+     * Moves into a certain direction (if theres no wall)
+     * Also interacts with GameObject (if there is one at the position)
+     * @param d direction to move in
+     */
     public void move(Direction d) {
         
         lastFaced = d;
@@ -101,7 +104,7 @@ public class Player extends JComponent  {
             frame.finishLevel();
         }   
         else if(currentObject instanceof Cheater) {
-            reduceSteps(currentObject);
+            increaseStepsTaken(-((Cheater)currentObject).getValue());
             map.setPath(currentObject.toPath(), getX(), getY());
         }
         else if(currentObject instanceof Helper) {
@@ -118,12 +121,13 @@ public class Player extends JComponent  {
         }
     }
     
-    public void shoot() {
-        if(carriesBazooka == true) {
-            carriesBazooka = false;
+    public void increaseStepsTaken(int value) {
+        stepsTaken += value;
+        if(stepsTaken < 0) {
+            stepsTaken = 0;
         }
     }
-    
+        
     public void pickUpBazooka() {
         if(map.getGameObject(getY(), getX()) instanceof Bazooka) {
             carriesBazooka = true;
@@ -182,7 +186,7 @@ public class Player extends JComponent  {
         this.carriesBazooka = bool;
     }
     
-    public Direction getFaced() {
+    public Direction getDirection() {
         return lastFaced;
     }
     

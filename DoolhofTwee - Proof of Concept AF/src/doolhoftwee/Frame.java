@@ -35,6 +35,9 @@ public class Frame extends JFrame {
         init();
     }
    
+    /**
+     * Initialises the necesarry variables and the start screen.
+     */
     public void init() {
         handler = new LevelHandler();
         
@@ -72,6 +75,9 @@ public class Frame extends JFrame {
         }
     }
     
+    /**
+     * loads the current level in the levelHandler (if possible)
+     */
     public void loadGame() {
         remove(panel);
         
@@ -105,6 +111,9 @@ public class Frame extends JFrame {
         
     }
     
+    /**
+     * Loads the main menu after taking care of old data.
+     */
     public void endGame() {
         remove(panel);
         if(level != null) {
@@ -116,6 +125,10 @@ public class Frame extends JFrame {
         setVisible(true);
     }
     
+    /**
+     * Go to the next level
+     * Loads the game again
+     */
     public void finishLevel() {
         remove(panel);
         level.destroyComponents();

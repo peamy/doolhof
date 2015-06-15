@@ -7,10 +7,8 @@ package doolhoftwee;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.LinkedList;
-import java.util.List;
 import javax.imageio.ImageIO;
 
 /**
@@ -18,19 +16,14 @@ import javax.imageio.ImageIO;
  * @author Remco
  */
 public class Helper extends GameObject{
-
-    private BufferedImage pathImage;
-    private BufferedImage helperImage;
-    private BufferedImage helperPath;
     
     public Helper(int x, int y) {
         setX(x);
         setY(y);
         
         try{
-            pathImage = ImageIO.read(new File("src/doolhoftwee/images/path.png"));
-            helperImage = ImageIO.read(new File("src/doolhoftwee/images/sign.png"));
-            helperPath = ImageIO.read(new File("src/doolhoftwee/images/helperPath.png"));
+            setPathImage(ImageIO.read(new File("src/doolhoftwee/images/path.png")));
+            setImage(ImageIO.read(new File("src/doolhoftwee/images/sign.png")));            
         }
         catch(Exception e) {
             System.out.println(e + " fout bij inladen mage in Frame klasse.");
@@ -43,18 +36,10 @@ public class Helper extends GameObject{
         g.fillRect((getX()-beginX) * Drawing.PIXEL_VERTICAL, (getY()-beginY) * Drawing.PIXEL_HORIZONTAL, Drawing.PIXEL_VERTICAL, Drawing.PIXEL_HORIZONTAL);
     }
     
-    @Override
-    public void paintComponent(Graphics g) {
-        g.drawImage(pathImage, getX() * Drawing.PIXEL_HORIZONTAL, getY() * Drawing.PIXEL_VERTICAL, null);
-        g.drawImage(helperImage, getX() * Drawing.PIXEL_HORIZONTAL, getY() * Drawing.PIXEL_VERTICAL, null);
-    }
-    
-    @Override
-    public boolean canWalkThrough() {
-        return true;
-    }
-    
     /**
+     * Path finding algorithm breadth first
+     * Finds the shortest path to the finish (if its there)
+     * Shows the shortest path on the map
      * @SOURCE  http://www.dsalgo.com/2013/02/find-shortest-path-in-maze.html
      */
     public boolean findShortestPath(Map map) { 
@@ -62,6 +47,7 @@ public class Helper extends GameObject{
         GameObject[][] objects  = map.getMap();
         Finish finish           = map.getFinish();
         
+        //creates a matrix according to where player can walk.
         int[][] levelMatrix = new int[objects.length][objects[0].length];
         for (int i = 0; i < objects.length; ++i) {
             for (int j = 0; j < objects[0].length; ++j) {        
@@ -73,6 +59,7 @@ public class Helper extends GameObject{
         Cell end = new Cell(finish.getY(), finish.getX());
         queue.add(start);
         levelMatrix[start.row][start.col] = 1;
+        //looks for the finish breadth first
         while (!queue.isEmpty()) {    
             Cell cell = queue.poll();
             if (cell == end) {
@@ -98,10 +85,11 @@ public class Helper extends GameObject{
                 }
             }
         }
+        //if theres no path possible
         if (levelMatrix[end.row][end.col] == 0) {
             return false;
         }
-
+        //adds pieces of path to a list, starting from the end, to the start.
         LinkedList <Cell> path = new LinkedList <Cell>();
         Cell cell = end;
         while (!cell.equals(start)) {    
@@ -125,8 +113,7 @@ public class Helper extends GameObject{
                 }
             }
         }
-        //this.path = path;
-        
+        //sets the shortest path into the map, so player can see.
         map.resetShortestPath();
         for (Cell c : path) {            
             map.setShortestPath(c.row, c.col);
@@ -134,6 +121,9 @@ public class Helper extends GameObject{
         return true;
      }
     
+    /**
+     * inner class used to find the shortest path
+     */
     private static class Cell {
 
         private int row;
@@ -159,10 +149,6 @@ public class Helper extends GameObject{
             return false;
         }
 
-        @Override
-        public String toString() {        
-            return "(" + row + "," + col + ")";
-        }
    }
     
 }

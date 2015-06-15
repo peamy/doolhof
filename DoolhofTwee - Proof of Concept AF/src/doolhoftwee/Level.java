@@ -19,6 +19,9 @@ public class Level extends JPanel {
     
     private Frame frame;
     
+    /**
+     * Listener for keys
+     */
     private KeyAdapter adapter = new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
@@ -42,8 +45,8 @@ public class Level extends JPanel {
                         
                     case KeyEvent.VK_SPACE :
                         if(player.isCarryingBazooka() == true) {
-                            player.shoot();
-                            bullet = new Bullet(player.getX(), player.getY(), player.getFaced(), map);
+                            player.setCarryingBazooka(false);
+                            bullet = new Bullet(player.getX(), player.getY(), player.getDirection(), map);
                         }
                         else {
                             player.pickUpBazooka();
@@ -134,6 +137,10 @@ public class Level extends JPanel {
         frame.addKeyListener(adapter);
     }
     
+     /**
+      * Generates a map from a .txt file
+      * a GameObject[][] is created and put in a map
+      */
     public void generateMap(String fileName) {
         String[][] grid = Datareader.getData(fileName);
         

@@ -63,6 +63,10 @@ public class Bullet extends JComponent{
           g.drawImage(image, getX() * Drawing.PIXEL_HORIZONTAL, getY() * Drawing.PIXEL_VERTICAL, null);
     }
     
+    /**
+     * moves into the direction it is shot, removes a wall from the map if it hits a wall
+     * @return wether it is done or not.
+     */
     public boolean shoot() {
         switch(direction) {
             case UP :

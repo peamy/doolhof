@@ -72,8 +72,9 @@ public class PlayerTest {
         System.out.println("shoot");
         Player instance = new Player(0, 0);
         instance.setCarryingBazooka(true);
-        instance.shoot();
-        
+        if(instance.isCarryingBazooka()) {            
+            instance.setCarryingBazooka(false);
+        }        
         boolean expectedValue = false;
         boolean actualValue = instance.isCarryingBazooka();
         // TODO review the generated test code and remove the default call to fail.
@@ -196,7 +197,7 @@ public class PlayerTest {
         System.out.println("getFaced");
         Player instance = null;
         Direction expResult = null;
-        Direction result = instance.getFaced();
+        Direction result = instance.getDirection();
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
