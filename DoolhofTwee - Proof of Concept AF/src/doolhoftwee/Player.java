@@ -15,7 +15,6 @@ public class Player extends JComponent  {
     private int x;
     private int y;
     
-    private BufferedImage pathImage;
     private BufferedImage playerImage;
     private BufferedImage playerBazookaUp;
     private BufferedImage playerBazookaDown;
@@ -32,8 +31,7 @@ public class Player extends JComponent  {
         setX(x);
         setY(y);
         
-        try{
-            pathImage = ImageIO.read(new File("src/doolhoftwee/images/path.png"));
+        try{           
             playerImage = ImageIO.read(new File("src/doolhoftwee/images/player.png"));
             playerBazookaDown = ImageIO.read(new File("src/doolhoftwee/images/playerBazookaDown.png"));
             playerBazookaUp = ImageIO.read(new File("src/doolhoftwee/images/playerBazookaUp.png"));
@@ -103,16 +101,20 @@ public class Player extends JComponent  {
             frame.finishLevel();
         }   
         else if(currentObject instanceof Cheater) {
-            stepsTaken -= ((Cheater) currentObject).getValue();                    
+            reduceSteps(currentObject);
             map.setPath(currentObject.toPath(), getX(), getY());
-            if(stepsTaken < 0) {
-                stepsTaken = 0;
-            }
         }
         else if(currentObject instanceof Helper) {
             Helper h = (Helper) currentObject;
             h.findShortestPath(map);
             map.setPath(currentObject.toPath(), getX(), getY());
+        }
+    }
+    
+    public void reduceSteps(GameObject object) {
+        stepsTaken -= ((Cheater) object).getValue();
+        if(stepsTaken < 0) {
+            stepsTaken = 0;
         }
     }
     
@@ -140,27 +142,26 @@ public class Player extends JComponent  {
         repaint();
     }
     
-    public void paintComponent(Graphics g) {
-        g.drawImage(pathImage, getX() * Drawing.PIXEL_HORIZONTAL, getY() * Drawing.PIXEL_VERTICAL, null);
+    public void paintComponent(Graphics g) {        
         g.drawImage(playerImage, getX() * Drawing.PIXEL_HORIZONTAL, getY() * Drawing.PIXEL_VERTICAL, null);
         
         //draw the bazooka
         if(carriesBazooka) {
             switch(lastFaced) {
                 case DOWN :
-                      g.drawImage(pathImage, getX() * Drawing.PIXEL_HORIZONTAL, getY() * Drawing.PIXEL_VERTICAL, null);
+                      //g.drawImage(pathImage, getX() * Drawing.PIXEL_HORIZONTAL, getY() * Drawing.PIXEL_VERTICAL, null);
                       g.drawImage(playerBazookaDown, getX() * Drawing.PIXEL_HORIZONTAL, getY() * Drawing.PIXEL_VERTICAL, null);
                     break;
                 case LEFT :
-                    g.drawImage(pathImage, getX() * Drawing.PIXEL_HORIZONTAL, getY() * Drawing.PIXEL_VERTICAL, null);
+                    //g.drawImage(pathImage, getX() * Drawing.PIXEL_HORIZONTAL, getY() * Drawing.PIXEL_VERTICAL, null);
                     g.drawImage(playerBazookaLeft, getX() * Drawing.PIXEL_HORIZONTAL, getY() * Drawing.PIXEL_VERTICAL, null);
                     break;
                 case RIGHT :
-                    g.drawImage(pathImage, getX() * Drawing.PIXEL_HORIZONTAL, getY() * Drawing.PIXEL_VERTICAL, null);
+                    //g.drawImage(pathImage, getX() * Drawing.PIXEL_HORIZONTAL, getY() * Drawing.PIXEL_VERTICAL, null);
                     g.drawImage(playerBazookaRight, getX() * Drawing.PIXEL_HORIZONTAL, getY() * Drawing.PIXEL_VERTICAL, null);
                     break;
                 case UP :
-                   g.drawImage(pathImage, getX() * Drawing.PIXEL_HORIZONTAL, getY() * Drawing.PIXEL_VERTICAL, null);
+                   //g.drawImage(pathImage, getX() * Drawing.PIXEL_HORIZONTAL, getY() * Drawing.PIXEL_VERTICAL, null);
                    g.drawImage(playerBazookaUp, getX() * Drawing.PIXEL_HORIZONTAL, getY() * Drawing.PIXEL_VERTICAL, null);
                     break;
             }
@@ -187,5 +188,9 @@ public class Player extends JComponent  {
     
     public int getStepsTaken() {
         return stepsTaken;
+    }
+    
+    public void setStepsTaken(int steps) {
+        this.stepsTaken = steps;
     }
 }

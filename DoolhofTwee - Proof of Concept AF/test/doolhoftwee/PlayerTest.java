@@ -79,6 +79,20 @@ public class PlayerTest {
         // TODO review the generated test code and remove the default call to fail.
         assertEquals(expectedValue, actualValue);
     }
+    
+    @Test
+    public void testCheater() {
+        System.out.println("cheater");
+        Player instance = new Player(0, 0);
+        Cheater cheater = new Cheater(0, 0, 5);
+        
+        instance.setStepsTaken(10);
+        
+        instance.reduceSteps(cheater);
+        
+        int expectedResult = 5;
+        assertEquals(expectedResult, instance.getStepsTaken());
+    }
 
     /**
      * Test of pickUpBazooka method, of class Player.
@@ -128,8 +142,8 @@ public class PlayerTest {
         System.out.println("canWalkThrough");
         Player instance = null;
         boolean expResult = false;
-        boolean result = instance.canWalkThrough();
-        assertEquals(expResult, result);
+       // boolean result = instance.canWalkThrough();
+       // assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
