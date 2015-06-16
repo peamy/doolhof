@@ -29,17 +29,21 @@ public class Path extends GameObject {
     
     @Override
     public void paintComponent(Graphics g, int beginX, int beginY) {
-        g.setColor(Color.GRAY);        
-        g.fillRect((getX()-beginX) * Drawing.PIXEL_VERTICAL, (getY()-beginY) * Drawing.PIXEL_HORIZONTAL, Drawing.PIXEL_VERTICAL, Drawing.PIXEL_HORIZONTAL);
+        if(isShortestPath) {
+            g.drawImage(getImage(), (getX()-beginX) * Drawing.PIXEL_X_ZOOM, (getY()-beginY) * Drawing.PIXEL_Y_ZOOM, Drawing.PIXEL_X_ZOOM, Drawing.PIXEL_Y_ZOOM, null);
+        }
+        else {
+            g.drawImage(getPathImage(), (getX()-beginX) * Drawing.PIXEL_X_ZOOM, (getY()-beginY) * Drawing.PIXEL_Y_ZOOM, Drawing.PIXEL_X_ZOOM, Drawing.PIXEL_Y_ZOOM, null);
+        }
     }
     
     @Override
     public void paintComponent(Graphics g) {
         if(isShortestPath) {
-            g.drawImage(getImage(), getX() * Drawing.PIXEL_HORIZONTAL, getY() * Drawing.PIXEL_VERTICAL, null);
+            g.drawImage(getImage(), getX() * Drawing.PIXEL_X, getY() * Drawing.PIXEL_Y, Drawing.PIXEL_X, Drawing.PIXEL_Y, null);
         }
         else {
-            g.drawImage(getPathImage(), getX() * Drawing.PIXEL_HORIZONTAL, getY() * Drawing.PIXEL_VERTICAL, null);
+            g.drawImage(getPathImage(), getX() * Drawing.PIXEL_X, getY() * Drawing.PIXEL_Y, Drawing.PIXEL_X, Drawing.PIXEL_Y, null);
         }
 
     }

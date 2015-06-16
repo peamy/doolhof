@@ -28,7 +28,7 @@ public class Frame extends JFrame {
     LevelHandler handler = null;
     
     public Frame() {
-        setSize(825, 650);
+        setSize(910, 760);
         setTitle("Doolhof");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);

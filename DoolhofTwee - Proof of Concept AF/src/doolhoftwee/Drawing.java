@@ -10,6 +10,8 @@ package doolhoftwee;
  * @author Remco
  */
 public abstract class Drawing {
-    static final int PIXEL_HORIZONTAL = 40;
-    static final int PIXEL_VERTICAL = 40;
+    static final int PIXEL_X = 40;
+    static final int PIXEL_Y = 40;
+    static final int PIXEL_X_ZOOM = 100;
+    static final int PIXEL_Y_ZOOM = 100;
 }

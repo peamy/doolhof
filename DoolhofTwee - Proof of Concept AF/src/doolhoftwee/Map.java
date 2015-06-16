@@ -5,6 +5,12 @@
  */
 package doolhoftwee;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.imageio.ImageIO;
+
 /**
  *
  * @author Remco
@@ -60,6 +66,13 @@ public class Map {
                 if(map[i][j] instanceof Path) {
                     ((Path) map[i][j]).setShortestPath(false);
                 }
+                else if(!(map[i][j] instanceof Wall)) {
+                    try {
+                        map[i][j].setPathImage(ImageIO.read(new File("src/doolhoftwee/images/path.png")));
+                    } catch (IOException ex) {
+                        Logger.getLogger(Map.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
             }
         }
     }
@@ -68,6 +81,13 @@ public class Map {
         GameObject object = map[x][y];
         if(object instanceof Path) {
             ((Path)object).setShortestPath(true);
+        }
+        else if(!(object instanceof Wall)) {
+            try {
+                object.setPathImage(ImageIO.read(new File("src/doolhoftwee/images/helperPath.png")));
+            } catch (IOException ex) {
+                Logger.getLogger(Map.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
 }

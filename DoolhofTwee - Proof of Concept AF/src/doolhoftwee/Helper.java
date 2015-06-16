@@ -29,13 +29,7 @@ public class Helper extends GameObject{
             System.out.println(e + " fout bij inladen mage in Frame klasse.");
         } 
     }
-    
-    @Override
-    public void paintComponent(Graphics g, int beginX, int beginY) {
-        g.setColor(Color.BLUE);        
-        g.fillRect((getX()-beginX) * Drawing.PIXEL_VERTICAL, (getY()-beginY) * Drawing.PIXEL_HORIZONTAL, Drawing.PIXEL_VERTICAL, Drawing.PIXEL_HORIZONTAL);
-    }
-    
+   
     /**
      * Path finding algorithm breadth first
      * Finds the shortest path to the finish (if its there)

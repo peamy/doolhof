@@ -28,14 +28,5 @@ public class Finish extends GameObject {
             System.out.println(e + " fout bij inladen mage in Frame klasse.");
         } 
     }
-
-    public void paintComponent(Graphics g, int beginX, int beginY) {
-        
-        g.setColor(Color.GREEN);
-        
-        g.fillRect((getX()-beginX) * Drawing.PIXEL_VERTICAL, (getY()-beginY) * Drawing.PIXEL_HORIZONTAL, Drawing.PIXEL_VERTICAL, Drawing.PIXEL_HORIZONTAL);
-        
-        repaint();
-    }
     
 }

@@ -106,18 +106,17 @@ public class Player extends JComponent  {
         else if(currentObject instanceof Cheater) {
             increaseStepsTaken(-((Cheater)currentObject).getValue());
             map.setPath(currentObject.toPath(), getX(), getY());
+            map.resetShortestPath();
         }
         else if(currentObject instanceof Helper) {
             Helper h = (Helper) currentObject;
             h.findShortestPath(map);
             map.setPath(currentObject.toPath(), getX(), getY());
         }
-    }
-    
-    public void reduceSteps(GameObject object) {
-        stepsTaken -= ((Cheater) object).getValue();
-        if(stepsTaken < 0) {
-            stepsTaken = 0;
+        else if(currentObject instanceof Vijand) {           
+            increaseStepsTaken(((Vijand)currentObject).getValue());
+            map.setPath(currentObject.toPath(), getX(), getY());
+            map.resetShortestPath();
         }
     }
     
@@ -137,41 +136,59 @@ public class Player extends JComponent  {
         }
     }
     
-    public void paintComponent(Graphics g, int beginX, int beginY) {
-        
-        g.setColor(Color.BLACK);
-        
-        g.fillOval((getX()-beginX) * Drawing.PIXEL_VERTICAL, (getY()-beginY) * Drawing.PIXEL_HORIZONTAL, Drawing.PIXEL_VERTICAL, Drawing.PIXEL_HORIZONTAL);
-        
-        repaint();
-    }
-    
-    public void paintComponent(Graphics g) {        
-        g.drawImage(playerImage, getX() * Drawing.PIXEL_HORIZONTAL, getY() * Drawing.PIXEL_VERTICAL, null);
+    public void paintComponent(Graphics g, int beginX, int beginY) {        
         
         //draw the bazooka
         if(carriesBazooka) {
             switch(lastFaced) {
                 case DOWN :
                       //g.drawImage(pathImage, getX() * Drawing.PIXEL_HORIZONTAL, getY() * Drawing.PIXEL_VERTICAL, null);
-                      g.drawImage(playerBazookaDown, getX() * Drawing.PIXEL_HORIZONTAL, getY() * Drawing.PIXEL_VERTICAL, null);
+                      g.drawImage(playerBazookaDown, (getX()-beginX) * Drawing.PIXEL_X_ZOOM, (getY()-beginY) * Drawing.PIXEL_Y_ZOOM, Drawing.PIXEL_X_ZOOM, Drawing.PIXEL_Y_ZOOM, null);
                     break;
                 case LEFT :
                     //g.drawImage(pathImage, getX() * Drawing.PIXEL_HORIZONTAL, getY() * Drawing.PIXEL_VERTICAL, null);
-                    g.drawImage(playerBazookaLeft, getX() * Drawing.PIXEL_HORIZONTAL, getY() * Drawing.PIXEL_VERTICAL, null);
+                    g.drawImage(playerBazookaLeft, (getX()-beginX) * Drawing.PIXEL_X_ZOOM, (getY()-beginY) * Drawing.PIXEL_Y_ZOOM, Drawing.PIXEL_X_ZOOM, Drawing.PIXEL_Y_ZOOM, null);
                     break;
                 case RIGHT :
                     //g.drawImage(pathImage, getX() * Drawing.PIXEL_HORIZONTAL, getY() * Drawing.PIXEL_VERTICAL, null);
-                    g.drawImage(playerBazookaRight, getX() * Drawing.PIXEL_HORIZONTAL, getY() * Drawing.PIXEL_VERTICAL, null);
+                    g.drawImage(playerBazookaRight, (getX()-beginX) * Drawing.PIXEL_X_ZOOM, (getY()-beginY) * Drawing.PIXEL_Y_ZOOM, Drawing.PIXEL_X_ZOOM, Drawing.PIXEL_Y_ZOOM, null);
                     break;
                 case UP :
                    //g.drawImage(pathImage, getX() * Drawing.PIXEL_HORIZONTAL, getY() * Drawing.PIXEL_VERTICAL, null);
-                   g.drawImage(playerBazookaUp, getX() * Drawing.PIXEL_HORIZONTAL, getY() * Drawing.PIXEL_VERTICAL, null);
+                   g.drawImage(playerBazookaUp, (getX()-beginX) * Drawing.PIXEL_X_ZOOM, (getY()-beginY) * Drawing.PIXEL_Y_ZOOM, Drawing.PIXEL_X_ZOOM, Drawing.PIXEL_Y_ZOOM, null);
+                    break;
+            }
+        }
+        else {
+            g.drawImage(playerImage, (getX()-beginX) * Drawing.PIXEL_X_ZOOM, (getY()-beginY) * Drawing.PIXEL_Y_ZOOM, Drawing.PIXEL_X_ZOOM, Drawing.PIXEL_Y_ZOOM, null);
+        }
+    }
+    
+    public void paintComponent(Graphics g) {        
+        g.drawImage(playerImage, getX() * Drawing.PIXEL_X, getY() * Drawing.PIXEL_Y, Drawing.PIXEL_X, Drawing.PIXEL_Y, null);
+        
+        //draw the bazooka
+        if(carriesBazooka) {
+            switch(lastFaced) {
+                case DOWN :
+                      //g.drawImage(pathImage, getX() * Drawing.PIXEL_HORIZONTAL, getY() * Drawing.PIXEL_VERTICAL, null);
+                      g.drawImage(playerBazookaDown, getX() * Drawing.PIXEL_X, getY() * Drawing.PIXEL_Y, Drawing.PIXEL_X, Drawing.PIXEL_Y, null);
+                    break;
+                case LEFT :
+                    //g.drawImage(pathImage, getX() * Drawing.PIXEL_HORIZONTAL, getY() * Drawing.PIXEL_VERTICAL, null);
+                    g.drawImage(playerBazookaLeft, getX() * Drawing.PIXEL_X, getY() * Drawing.PIXEL_Y, Drawing.PIXEL_X, Drawing.PIXEL_Y, null);
+                    break;
+                case RIGHT :
+                    //g.drawImage(pathImage, getX() * Drawing.PIXEL_HORIZONTAL, getY() * Drawing.PIXEL_VERTICAL, null);
+                    g.drawImage(playerBazookaRight, getX() * Drawing.PIXEL_X, getY() * Drawing.PIXEL_Y, Drawing.PIXEL_X, Drawing.PIXEL_Y, null);
+                    break;
+                case UP :
+                   //g.drawImage(pathImage, getX() * Drawing.PIXEL_HORIZONTAL, getY() * Drawing.PIXEL_VERTICAL, null);
+                   g.drawImage(playerBazookaUp, getX() * Drawing.PIXEL_X, getY() * Drawing.PIXEL_Y, Drawing.PIXEL_X, Drawing.PIXEL_Y, null);
                     break;
             }
         }
         
-        repaint();
     }    
     
     public void setFrame(Frame frame) {

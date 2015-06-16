@@ -43,15 +43,21 @@ public abstract class GameObject extends JComponent {
      * @param beginX the position to start horizontally
      * @param beginY the position to start vertically
      */
-    public abstract void paintComponent(Graphics g, int beginX, int beginY);
+    public void paintComponent(Graphics g, int beginX, int beginY) {
+        if(pathImage != null) {
+            g.drawImage(pathImage, (getX()-beginX) * Drawing.PIXEL_X_ZOOM, (getY()-beginY) * Drawing.PIXEL_Y_ZOOM, Drawing.PIXEL_X_ZOOM, Drawing.PIXEL_Y_ZOOM, null);
+        }        
+        g.drawImage(image, (getX()-beginX) * Drawing.PIXEL_X_ZOOM, (getY()-beginY) * Drawing.PIXEL_Y_ZOOM, Drawing.PIXEL_X_ZOOM, Drawing.PIXEL_Y_ZOOM, null);
+    }
     
     @Override
     public void paintComponent(Graphics g) {
         if(pathImage != null) {
-            g.drawImage(pathImage, getX() * Drawing.PIXEL_HORIZONTAL, getY() * Drawing.PIXEL_VERTICAL, null);
+            g.drawImage(pathImage, getX() * Drawing.PIXEL_X, getY() * Drawing.PIXEL_Y, Drawing.PIXEL_X, Drawing.PIXEL_Y, null);
         }        
-        g.drawImage(image, getX() * Drawing.PIXEL_HORIZONTAL, getY() * Drawing.PIXEL_VERTICAL, null);
+        g.drawImage(image, getX() * Drawing.PIXEL_X, getY() * Drawing.PIXEL_Y, Drawing.PIXEL_X, Drawing.PIXEL_Y, null);
     } 
+    
     public BufferedImage getPathImage() {
         return pathImage;
     }

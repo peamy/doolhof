@@ -5,17 +5,23 @@ import java.awt.*;
 import java.awt.event.*;
 import java.awt.event.KeyAdapter;
 import javax.swing.JPanel;
-import java.awt.Font;
 
 
 public class Level extends JPanel {
     
     private Map map;
     
+    //put this on false to play seeing full map
+    private boolean zoom = true;
+    
     private Player player;
     private Bullet bullet;
     
-    private final int FONTSIZE = 25;
+    private final int FONTSIZE = 25;    
+    
+    //for the zoom
+    private final int blocksPerViewX = 9;
+    private final int blocksPerViewY = 7;    
     
     private Frame frame;
     
@@ -56,10 +62,7 @@ public class Level extends JPanel {
                 
                 frame.repaint();
             }
-        };
-    
-    private final int blocksPerViewX = 7;
-    private final int blocksPerViewY = 5;      
+        };      
     
     public Level(Frame frame, String fileName) {        
         this.frame = frame;        
@@ -75,52 +78,64 @@ public class Level extends JPanel {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);  
         
-        /*
-        int startX = player.getX() - (blocksPerViewX/2);
-        int startY = player.getY() - (blocksPerViewY/2);
+        if(zoom) {
+            int startX = player.getX() - (blocksPerViewX/2);
+            int startY = player.getY() - (blocksPerViewY/2);
+
+            if(startX > (map.getYBounds()-blocksPerViewX)) {
+                startX = map.getYBounds()-blocksPerViewX;
+            }
+            if(startY > (map.getXBounds()-blocksPerViewY)) {
+                startY = map.getXBounds()-blocksPerViewY;
+            }
+            if(startX < 0) {
+                startX = 0;   
+            }
+            if(startY < 0) {
+                startY = 0;
+            }
+
+            for(int i = 0; i < blocksPerViewY; i++) {
+                for(int j = 0; j < blocksPerViewX; j++) {
+                    if(map.getGameObject(i+startY, j+startX) != null) {
+                        map.getGameObject(i+startY, j+startX).paintComponent(g, startX, startY);                    
+                    }
+                }            
+            }
+            player.paintComponent(g, startX, startY);  
+
+            if(bullet != null) {
+
+                bullet.paintComponent(g, startX, startY);
+                frame.repaint();
+
+                if(bullet.shoot()) {
+                    bullet = null;
+                }     
+            }
+        }
+        else {
+            for(int i = 0; i < map.getXBounds(); i++) {
+                for(int j = 0; j < map.getYBounds(); j++) {
+                    if(map.getGameObject(i, j) != null) {
+                        map.getGameObject(i, j).paintComponent(g);                    
+                    }
+                }            
+            }
+
+            player.paintComponent(g);
+
+            if(bullet != null) {
+
+                bullet.paintComponent(g);
+                frame.repaint();
+
+                if(bullet.shoot()) {
+                    bullet = null;
+                }     
+            } 
+        }
         
-        if(startX > (map.getYBounds()-blocksPerViewX)) {
-            startX = map.getYBounds()-blocksPerViewX;
-        }
-        if(startY > (map.getXBounds()-blocksPerViewY)) {
-            startY = map.getXBounds()-blocksPerViewY;
-        }
-        if(startX < 0) {
-            startX = 0;   
-        }
-        if(startY < 0) {
-            startY = 0;
-        }
-        
-        for(int i = 0; i < blocksPerViewY; i++) {
-            for(int j = 0; j < blocksPerViewX; j++) {
-                if(map.getGameObject(i+startY, j+startX) != null) {
-                    map.getGameObject(i+startY, j+startX).paintComponent(g, startX, startY);                    
-                }
-            }            
-        }
-        player.paintComponent(g, startX, startY);  
-        */
-        
-        for(int i = 0; i < map.getXBounds(); i++) {
-            for(int j = 0; j < map.getYBounds(); j++) {
-                if(map.getGameObject(i, j) != null) {
-                    map.getGameObject(i, j).paintComponent(g);                    
-                }
-            }            
-        }
-        
-        player.paintComponent(g);
-        
-        if(bullet != null) {
-                
-            bullet.paintComponent(g);
-            frame.repaint();
-            
-            if(bullet.shoot()) {
-                bullet = null;
-            }     
-        }        
         //g.setFont(new Font("TimesRoman", Font.PLAIN, FONTSIZE));        
         g.setColor(Color.WHITE);
         g.drawString("" + player.getStepsTaken(), 5, 25);
@@ -184,6 +199,10 @@ public class Level extends JPanel {
                     case "h" :
                         Helper h = new Helper(j, i);
                         objectGrid[i][j] = h;
+                        break;
+                    case "v" :
+                        Vijand v = new Vijand(j, i);
+                        objectGrid[i][j] = v;
                         break;
                     case "p" :
                         Path pathh = new Path(j, i);

@@ -24,12 +24,6 @@ public class Cheater extends GameObject {
         } 
     }
     
-    @Override
-    public void paintComponent(Graphics g, int beginX, int beginY) {
-        g.setColor(Color.CYAN);        
-        g.fillRect((getX()-beginX) * Drawing.PIXEL_VERTICAL, (getY()-beginY) * Drawing.PIXEL_HORIZONTAL, Drawing.PIXEL_VERTICAL, Drawing.PIXEL_HORIZONTAL);
-    }   
-    
     public int getValue() {
         return value;
     }

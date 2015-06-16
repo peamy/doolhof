@@ -12,7 +12,7 @@ import javax.swing.JComponent;
 public class Bullet extends JComponent{
     
     private Direction direction;
-    
+    private int count = 0;
     private BufferedImage image;
     
     private int x;
@@ -53,14 +53,12 @@ public class Bullet extends JComponent{
     }
     
     public void paintComponent(Graphics g, int beginX, int beginY) {
-        g.setColor(Color.YELLOW);
-        
-        g.fillRect((getX()-beginX) * Drawing.PIXEL_VERTICAL, (getY()-beginY) * Drawing.PIXEL_HORIZONTAL, Drawing.PIXEL_VERTICAL, Drawing.PIXEL_HORIZONTAL);
+         g.drawImage(image, (getX()-beginX) * Drawing.PIXEL_X_ZOOM, (getY()-beginY) * Drawing.PIXEL_Y_ZOOM, Drawing.PIXEL_X_ZOOM, Drawing.PIXEL_Y_ZOOM, null);
     }
     
     @Override
     public void paintComponent(Graphics g) {        
-          g.drawImage(image, getX() * Drawing.PIXEL_HORIZONTAL, getY() * Drawing.PIXEL_VERTICAL, null);
+          g.drawImage(image, getX() * Drawing.PIXEL_X, getY() * Drawing.PIXEL_Y, Drawing.PIXEL_X, Drawing.PIXEL_Y, null);
     }
     
     /**
@@ -107,8 +105,14 @@ public class Bullet extends JComponent{
             Wall w = (Wall) m.getGameObject(getY(), getX());
             m.setPath(w.toPath(), getX(), getY());
             
-            return true;
+            count += 3;
         } 
+        else {
+            count ++;
+        }        
+        if(count > 10) {
+            return true;
+        }
         return false;
     }
 
