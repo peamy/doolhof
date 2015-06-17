@@ -5,7 +5,6 @@
  */
 package doolhoftwee;
 
-import java.awt.Graphics;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -44,11 +43,11 @@ public class PlayerTest {
     @Test
     public void testSetMap() {
         System.out.println("setMap");
-        Map map = null;
-        Player instance = null;
+        Map map = new Map();
+        Player instance = new Player(0,0);
         instance.setMap(map);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        
+        assertEquals(map, instance.getMap());        
     }
 
     /**
@@ -56,31 +55,24 @@ public class PlayerTest {
      */
     @Test
     public void testMove() {
-        System.out.println("move");
-        Direction d = null;
-        Player instance = null;
-        instance.move(d);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        Map map = new Map();
+        Path p1 = new Path(0,0);
+        Path p2 = new Path(0,1);
+        GameObject[][] layout = new GameObject[][] { {p1, p2 } };
+        map.setMap(layout);
+        Player instance = new Player(0,0);
+        instance.setMap(map);
+        
+        int expectedX = 1;
+        instance.move(Direction.RIGHT);
+        
+        assertEquals(expectedX, instance.getX());        
     }
 
     /**
      * Test of shoot method, of class Player.
      */
-    @Test
-    public void testShoot() {
-        System.out.println("shoot");
-        Player instance = new Player(0, 0);
-        instance.setCarryingBazooka(true);
-        if(instance.isCarryingBazooka()) {            
-            instance.setCarryingBazooka(false);
-        }        
-        boolean expectedValue = false;
-        boolean actualValue = instance.isCarryingBazooka();
-        // TODO review the generated test code and remove the default call to fail.
-        assertEquals(expectedValue, actualValue);
-    }
-    
+        
     @Test
     public void testCheaterPositive() {
         
@@ -137,79 +129,29 @@ public class PlayerTest {
     @Test
     public void testPickUpBazooka() {
         System.out.println("pickUpBazooka");
-        Player instance = null;
+        Map map = new Map();
+        GameObject[][] grid = new GameObject[1][1];
+        Bazooka b = new Bazooka(0,0);
+        grid[0][0] = b;
+        map.setMap(grid);
+        Player instance = new Player(0,0);
+        instance.setMap(map);
         instance.pickUpBazooka();
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of paintComponent method, of class Player.
-     */
-    @Test
-    public void testPaintComponent_3args() {
-        System.out.println("paintComponent");
-        Graphics g = null;
-        int beginX = 0;
-        int beginY = 0;
-        Player instance = null;
-        instance.paintComponent(g, beginX, beginY);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of paintComponent method, of class Player.
-     */
-    @Test
-    public void testPaintComponent_Graphics() {
-        System.out.println("paintComponent");
-        Graphics g = null;
-        Player instance = null;
-        instance.paintComponent(g);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of canWalkThrough method, of class Player.
-     */
-    @Test
-    public void testCanWalkThrough() {
-        System.out.println("canWalkThrough");
-        Player instance = null;
-        boolean expResult = false;
-       // boolean result = instance.canWalkThrough();
-       // assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of setFrame method, of class Player.
-     */
-    @Test
-    public void testSetFrame() {
-        System.out.println("setFrame");
-        Frame frame = null;
-        Player instance = null;
-        instance.setFrame(frame);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
+        
+        boolean expected = true;
+        assertEquals(expected, instance.isCarryingBazooka());                
+    }        
+    
     /**
      * Test of isCarryingBazooka method, of class Player.
      */
     @Test
     public void testIsCarryingBazooka() {
         System.out.println("isCarryingBazooka");
-        Player instance = null;
+        Player instance = new Player(0, 0);
         boolean expResult = false;
         boolean result = instance.isCarryingBazooka();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        assertEquals(expResult, result);        
     }
 
     /**
@@ -217,26 +159,29 @@ public class PlayerTest {
      */
     @Test
     public void testSetCarryingBazooka() {
-        System.out.println("setCarryingBazooka");
-        boolean bool = false;
-        Player instance = null;
-        instance.setCarryingBazooka(bool);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        System.out.println("setCarryingBazooka");        
+        Player instance = new Player(0, 0);
+        
+        instance.setCarryingBazooka(true);        
+        boolean expected = true;
+        
+        assertEquals(expected, instance.isCarryingBazooka());
     }
 
     /**
      * Test of getFaced method, of class Player.
      */
     @Test
-    public void testGetFaced() {
+    public void testDirection() {
         System.out.println("getFaced");
-        Player instance = null;
-        Direction expResult = null;
-        Direction result = instance.getDirection();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        Map m = new Map();
+        m.setMap(new GameObject[][] { { new Path(0,0) } });
+        Player instance = new Player(0, 0);
+        instance.setMap(m);
+        instance.move(Direction.DOWN);
+        Direction expected = Direction.DOWN;
+        
+        assertEquals(expected, instance.getDirection());
     }
 
     /**
@@ -245,12 +190,12 @@ public class PlayerTest {
     @Test
     public void testGetStepsTaken() {
         System.out.println("getStepsTaken");
-        Player instance = null;
-        int expResult = 0;
-        int result = instance.getStepsTaken();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        Player instance = new Player(0,0);
+        instance.setStepsTaken(120);
+        
+        int expected = 120;
+        
+        assertEquals(expected, instance.getStepsTaken());
     }
     
 }

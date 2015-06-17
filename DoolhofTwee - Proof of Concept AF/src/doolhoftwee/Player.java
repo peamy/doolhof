@@ -217,4 +217,8 @@ public class Player extends JComponent  {
     public void setStepsTaken(int steps) {
         this.stepsTaken = steps;
     }
+    
+    public Map getMap() {
+        return map;
+    }
 }
