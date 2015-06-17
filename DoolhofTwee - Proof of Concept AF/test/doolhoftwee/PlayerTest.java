@@ -54,28 +54,44 @@ public class PlayerTest {
      * Test of move method, of class Player.
      */
     @Test
-    public void testMove() {
+    public void testMove1() {
+        System.out.println("move");
         Map map = new Map();
-        Path p1 = new Path(0,0);
-        Path p2 = new Path(0,1);
-        GameObject[][] layout = new GameObject[][] { {p1, p2 } };
+        Path path1 = new Path(0,0);
+        Path path2 = new Path(0,0);
+        GameObject[][] layout = new GameObject[][] { {path1, path2 } };
         map.setMap(layout);
         Player instance = new Player(0,0);
         instance.setMap(map);
         
         int expectedX = 1;
         instance.move(Direction.RIGHT);
-        
         assertEquals(expectedX, instance.getX());        
     }
+    
+    @Test
+    public void testMove2() {
+        System.out.println("move");
+        Map map = new Map();
+        Path path1 = new Path(0,0);
+        Wall wall1 = new Wall(0,0);
+        GameObject[][] layout = new GameObject[][] { {path1, wall1 } };
+        map.setMap(layout);
+        Player instance = new Player(0,0);
+        instance.setMap(map);
+        
+        int expectedX = 0;
+        instance.move(Direction.RIGHT);
+        assertEquals(expectedX, instance.getX());        
+    }
+    
 
     /**
      * Test of shoot method, of class Player.
      */
         
     @Test
-    public void testCheaterPositive() {
-        
+    public void testCheaterPositive() {        
         System.out.println("cheater");
         Player instance = new Player(0, 0);
         Cheater cheater = new Cheater(0, 0, 5);
