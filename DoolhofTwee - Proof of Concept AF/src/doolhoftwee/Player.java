@@ -96,15 +96,18 @@ public class Player extends JComponent  {
                     stepsTaken++;
                     setX(getX() + 1);
                 }
-                break;
+                break;                
         }
-        
+        interact();
+    }
+    
+    public void interact() {
         GameObject currentObject = map.getGameObject(getY(), getX());
         if(currentObject instanceof Finish) {
             frame.finishLevel();
         }   
         else if(currentObject instanceof Cheater) {
-            increaseStepsTaken(-((Cheater)currentObject).getValue());
+            alterStepsTaken(-((Cheater)currentObject).getValue());
             map.setPath(currentObject.toPath(), getX(), getY());
             map.resetShortestPath();
         }
@@ -114,13 +117,13 @@ public class Player extends JComponent  {
             map.setPath(currentObject.toPath(), getX(), getY());
         }
         else if(currentObject instanceof Vijand) {           
-            increaseStepsTaken(((Vijand)currentObject).getValue());
+            alterStepsTaken(((Vijand)currentObject).getValue());
             map.setPath(currentObject.toPath(), getX(), getY());
             map.resetShortestPath();
         }
     }
     
-    public void increaseStepsTaken(int value) {
+    public void alterStepsTaken(int value) {
         stepsTaken += value;
         if(stepsTaken < 0) {
             stepsTaken = 0;

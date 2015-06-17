@@ -82,17 +82,53 @@ public class PlayerTest {
     }
     
     @Test
-    public void testCheater() {
+    public void testCheaterPositive() {
+        
         System.out.println("cheater");
         Player instance = new Player(0, 0);
         Cheater cheater = new Cheater(0, 0, 5);
         
         instance.setStepsTaken(10);
         
-        instance.reduceSteps(cheater);
+        instance.alterStepsTaken(-cheater.getValue());
         
         int expectedResult = 5;
         assertEquals(expectedResult, instance.getStepsTaken());
+    }
+    
+    @Test
+    public void testCheaterNegative() {
+        System.out.println("cheater");
+        Player instance = new Player(0, 0);
+        Cheater cheater = new Cheater(0, 0, 12);
+        
+        instance.setStepsTaken(10);
+        
+        instance.alterStepsTaken(-cheater.getValue());
+        
+        int expectedResult = 0;
+        assertEquals(expectedResult, instance.getStepsTaken());
+    }
+    
+    @Test
+    public void interactCheater() {
+        Map map = new Map();
+        GameObject[][] grid = new GameObject[1][1];
+        Cheater c = new Cheater(0, 0, 18);
+        grid[0][0] = c;        
+        map.setMap(grid);
+        
+        Player p = new Player(0, 0);
+        p.setStepsTaken(100);
+        p.setMap(map);        
+        
+        int expectedResult = p.getStepsTaken() - c.getValue();
+        p.interact();
+        assertEquals(expectedResult, p.getStepsTaken());
+       
+        int expectedResult2 = p.getStepsTaken();
+        p.interact();
+        assertEquals(expectedResult2, p.getStepsTaken());
     }
 
     /**
