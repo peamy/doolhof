@@ -96,7 +96,7 @@ public class Player extends JComponent  {
                     stepsTaken++;
                     setX(getX() + 1);
                 }
-                break;                
+                break;
         }
         interact();
     }
