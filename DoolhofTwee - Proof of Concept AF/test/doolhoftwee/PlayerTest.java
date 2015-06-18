@@ -54,7 +54,7 @@ public class PlayerTest {
      * Test of move method, of class Player.
      */
     @Test
-    public void testMove1() {
+    public void testMoveRightPath() {
         System.out.println("move");
         Map map = new Map();
         Path path1 = new Path(0,0);
@@ -70,7 +70,7 @@ public class PlayerTest {
     }
     
     @Test
-    public void testMove2() {
+    public void testMoveRightWall() {
         System.out.println("move");
         Map map = new Map();
         Path path1 = new Path(0,0);
@@ -83,6 +83,114 @@ public class PlayerTest {
         int expectedX = 0;
         instance.move(Direction.RIGHT);
         assertEquals(expectedX, instance.getX());        
+    }
+    
+     @Test
+    public void testMoveLeftPath() {
+        System.out.println("move");
+        Map map = new Map();
+        Path path1 = new Path(0,0);
+        Path path2 = new Path(0,0);
+        GameObject[][] layout = new GameObject[][] { {path1, path2 } };
+        map.setMap(layout);
+        Player instance = new Player(1,0);
+        instance.setMap(map);
+        
+        int expectedX = 0;
+        instance.move(Direction.LEFT);
+        assertEquals(expectedX, instance.getX());        
+    }
+    
+    @Test
+    public void testMoveLeftWall() {
+        System.out.println("move");
+        Map map = new Map();
+        Path path1 = new Path(0,0);
+        Wall wall1 = new Wall(0,0);
+        GameObject[][] layout = new GameObject[][] { {wall1, path1 } };
+        map.setMap(layout);
+        Player instance = new Player(1,0);
+        instance.setMap(map);
+        
+        int expectedX = 1;
+        instance.move(Direction.LEFT);
+        assertEquals(expectedX, instance.getX());        
+    }
+    
+     @Test
+    public void testMoveUpPath() {
+        System.out.println("move");
+        Map map = new Map();
+        Path path1 = new Path(0,0);
+        Path path2 = new Path(0,0);
+        GameObject[][] layout = new GameObject[][] { 
+            {path1},
+            {path2}
+        };
+        map.setMap(layout);
+        Player instance = new Player(0,1);
+        instance.setMap(map);
+        
+        int expectedY = 0;
+        instance.move(Direction.UP);
+        assertEquals(expectedY, instance.getY());        
+    }
+    
+    @Test
+    public void testMoveUpWall() {
+        System.out.println("move");
+        Map map = new Map();
+        Path path1 = new Path(0,0);
+        Wall wall1 = new Wall(0,0);
+        GameObject[][] layout = new GameObject[][] { 
+            {wall1},
+            {path1}
+        };
+        map.setMap(layout);
+        Player instance = new Player(0,1);
+        instance.setMap(map);
+        
+        int expectedY = 1;
+        instance.move(Direction.UP);
+        assertEquals(expectedY, instance.getY());        
+    }
+    
+    @Test
+    public void testMoveDownPath() {
+        System.out.println("move");
+        Map map = new Map();
+        Path path1 = new Path(0,0);
+        Path path2 = new Path(0,0);
+        GameObject[][] layout = new GameObject[][] { 
+            {path1},
+            {path2}
+        };
+        map.setMap(layout);
+        Player instance = new Player(0,0);
+        instance.setMap(map);
+        
+        int expectedY = 1;
+        instance.move(Direction.DOWN);
+        assertEquals(expectedY, instance.getY());        
+    }
+    
+    @Test
+    public void testMoveDownWall() {
+        System.out.println("move");
+        Map map = new Map();
+        Path path1 = new Path(0,0);
+        Wall wall1 = new Wall(0,0);
+        GameObject[][] layout = new GameObject[][] { 
+            {path1},
+            {wall1}
+        };
+        map.setMap(layout);
+        Player instance = new Player(0,0);
+        instance.setMap(map);
+        
+        int expectedY = 0;
+        instance.move(Direction.DOWN);
+        assertEquals(expectedY, instance.getY());        
     }
     
 
@@ -133,10 +241,22 @@ public class PlayerTest {
         int expectedResult = p.getStepsTaken() - c.getValue();
         p.interact();
         assertEquals(expectedResult, p.getStepsTaken());
-       
-        int expectedResult2 = p.getStepsTaken();
+    }
+    
+    public void interactNoCheater() {
+        Map map = new Map();
+        GameObject[][] grid = new GameObject[1][1];
+        Path path = new Path(0, 0);
+        grid[0][0] = path;        
+        map.setMap(grid);
+        
+        Player p = new Player(0, 0);
+        p.setStepsTaken(100);
+        p.setMap(map);        
+        
+        int expectedResult = p.getStepsTaken();
         p.interact();
-        assertEquals(expectedResult2, p.getStepsTaken());
+        assertEquals(expectedResult, p.getStepsTaken());
     }
 
     /**
