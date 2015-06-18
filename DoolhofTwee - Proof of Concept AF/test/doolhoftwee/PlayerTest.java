@@ -64,8 +64,8 @@ public class PlayerTest {
         Player instance = new Player(0,0);
         instance.setMap(map);
         
-        int expectedX = 1;
-        instance.move(Direction.RIGHT);
+        int expectedX = 1;                
+        instance.move(Direction.RIGHT);        
         assertEquals(expectedX, instance.getX());        
     }
     
@@ -263,7 +263,7 @@ public class PlayerTest {
      * Test of pickUpBazooka method, of class Player.
      */
     @Test
-    public void testPickUpBazooka() {
+    public void testBazooka1() {
         System.out.println("pickUpBazooka");
         Map map = new Map();
         GameObject[][] grid = new GameObject[1][1];
@@ -272,11 +272,66 @@ public class PlayerTest {
         map.setMap(grid);
         Player instance = new Player(0,0);
         instance.setMap(map);
-        instance.pickUpBazooka();
+        instance.spacebarPressed();
         
         boolean expected = true;
         assertEquals(expected, instance.isCarryingBazooka());                
-    }        
+    }       
+    
+    @Test
+    public void testBzooka2() {        
+        Map map = new Map();
+        GameObject[][] grid = new GameObject[1][1];
+        Path p = new Path(0,0);
+        grid[0][0] = p;
+        map.setMap(grid);
+        
+        Player instance = new Player(0,0);
+        instance.setCarryingBazooka(true);        
+        instance.setMap(map);
+        
+        instance.spacebarPressed();
+        
+        boolean expected = false;
+        assertEquals(expected, instance.isCarryingBazooka());                
+    }      
+    
+    @Test
+    public void testBazooka3() {
+        System.out.println("pickUpBazooka");
+        Map map = new Map();
+        GameObject[][] grid = new GameObject[1][1];
+        
+        Bazooka b = new Bazooka(0,0);
+        grid[0][0] = b;
+        map.setMap(grid);
+        
+        Player instance = new Player(0,0);
+        instance.setCarryingBazooka(true);
+        instance.setMap(map);
+        
+        instance.spacebarPressed();
+        
+        boolean expected = false;
+        assertEquals(expected, instance.isCarryingBazooka());                
+    }    
+    
+    @Test
+    public void testBzooka4() {        
+        Map map = new Map();
+        GameObject[][] grid = new GameObject[1][1];
+        Path p = new Path(0,0);
+        grid[0][0] = p;
+        map.setMap(grid);
+        
+        Player instance = new Player(0,0);        
+        instance.setMap(map);
+        
+        instance.spacebarPressed();
+        
+        boolean expected = false;
+        assertEquals(expected, instance.isCarryingBazooka());                
+    }      
     
     /**
      * Test of isCarryingBazooka method, of class Player.

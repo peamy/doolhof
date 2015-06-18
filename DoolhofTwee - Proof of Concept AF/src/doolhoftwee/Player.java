@@ -128,16 +128,7 @@ public class Player extends JComponent  {
         if(stepsTaken < 0) {
             stepsTaken = 0;
         }
-    }
-        
-    public void pickUpBazooka() {
-        if(map.getGameObject(getY(), getX()) instanceof Bazooka) {
-            carriesBazooka = true;
-                    
-            GameObject b = map.getGameObject(getY(), getX());
-            map.setPath(b.toPath(), getX(), getY());
-        }
-    }
+    }      
     
     public void paintComponent(Graphics g, int beginX, int beginY) {        
         
@@ -221,4 +212,19 @@ public class Player extends JComponent  {
     public Map getMap() {
         return map;
     }
+    
+    public void spacebarPressed() {
+        if(isCarryingBazooka()) {
+            setCarryingBazooka(false);
+            //bullet shot
+        }
+        else if(map.getGameObject(getY(), getX()) instanceof Bazooka){
+            carriesBazooka = true;
+
+            GameObject b = map.getGameObject(getY(), getX());
+            map.setPath(b.toPath(), getX(), getY());
+            
+        }
+    }
+    
 }
